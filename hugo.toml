@@ -1,7 +1,7 @@
 baseURL = 'https://example.org/'
-languageCode = 'en-us'
+languageCode = 'ko-kr'
 title = "Hwajin's Blog."
-paginate = 25
+paginate = 20
 
 [params]
   # dir name of your main content (default is `content/posts`).
@@ -9,7 +9,7 @@ paginate = 25
   contentTypeName = "posts"
 
   # if you set this to 0, only submenu trigger will be visible
-  showMenuItems = 4
+  showMenuItems = 5
 
   # show selector to switch language
   showLanguageSelector = true
