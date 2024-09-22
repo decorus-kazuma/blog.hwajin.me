@@ -66,10 +66,10 @@ paginate = 20
     title = "Hwajin's Blog"
 
     [languages.en.params]
-      subtitle = "A simple, retro theme for Hugo"
-      owner = ""
-      keywords = ""
-      copyright = ""
+      subtitle = "Hwajin Lee(이화진,和真)'s Personal Blog, Creative, Software Engineering"
+      owner = "Hwajin Lee"
+      keywords = "Software Engineering,Develop,Backend Engineer"
+      copyright = "Hwajin Lee"
       menuMore = "Show more"
       readMore = "Read more"
       readOtherPosts = "Read other posts"
@@ -96,10 +96,10 @@ paginate = 20
     title = "Hwajin's Blog"
 
     [languages.ko.params]
-      subtitle = "A simple, retro theme for Hugo"
-      owner = ""
-      keywords = ""
-      copyright = ""
+      subtitle = "Hwajin Lee(이화진,和真)'s Personal Blog, Creative, Software Engineering"
+      owner = "Hwajin Lee"
+      keywords = "Software Engineering,Develop,Backend Engineer"
+      copyright = "Hwajin Lee"
       menuMore = "Show more"
       readMore = "Read more"
       readOtherPosts = "Read other posts"
@@ -126,10 +126,10 @@ paginate = 20
     title = "Hwajin's Blog"
 
     [languages.ja.params]
-      subtitle = "A simple, retro theme for Hugo"
-      owner = ""
-      keywords = ""
-      copyright = ""
+      subtitle = "Hwajin Lee(이화진,和真)'s Personal Blog, Creative, Software Engineering"
+      owner = "Hwajin Lee"
+      keywords = "Software Engineering,Develop,Backend Engineer"
+      copyright = "Hwajin Lee"
       menuMore = "Show more"
       readMore = "Read more"
       readOtherPosts = "Read other posts"
