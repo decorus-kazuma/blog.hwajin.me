@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Posts on Hwajin&#39;s Blog</title>
+    <link>http://localhost:1313/ko/posts/</link>
+    <description>Recent content in Posts on Hwajin&#39;s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>ko</language>
+    <lastBuildDate>Wed, 04 Jul 2018 00:00:00 +0000</lastBuildDate><atom:link href="http://localhost:1313/ko/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Hello Friend</title>
+      <link>http://localhost:1313/ko/posts/2018/07/04/laravel-dependency-injection-container/post/</link>
+      <pubDate>Wed, 04 Jul 2018 00:00:00 +0000</pubDate>
+      
+      <guid>http://localhost:1313/ko/posts/2018/07/04/laravel-dependency-injection-container/post/</guid>
+      <description></description>
+      <content></content>
+    </item>
+    
+  </channel>
+</rss>
