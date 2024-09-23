@@ -1,10 +1,12 @@
 +++
 title = "라라벨의 의존성 주입 컨테이너"
-date = "2018-07-04"
+date = "2018-07-04 15:00:00"
 author = "Hwajin Lee"
 cover = "https://private-user-images.githubusercontent.com/8151366/369705124-c6c4d0f1-940f-43c1-85e2-abf278445276.png?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTUiLCJleHAiOjE3MjcwMjUzMTYsIm5iZiI6MTcyNzAyNTAxNiwicGF0aCI6Ii84MTUxMzY2LzM2OTcwNTEyNC1jNmM0ZDBmMS05NDBmLTQzYzEtODVlMi1hYmYyNzg0NDUyNzYucG5nP1gtQW16LUFsZ29yaXRobT1BV1M0LUhNQUMtU0hBMjU2JlgtQW16LUNyZWRlbnRpYWw9QUtJQVZDT0RZTFNBNTNQUUs0WkElMkYyMDI0MDkyMiUyRnVzLWVhc3QtMSUyRnMzJTJGYXdzNF9yZXF1ZXN0JlgtQW16LURhdGU9MjAyNDA5MjJUMTcxMDE2WiZYLUFtei1FeHBpcmVzPTMwMCZYLUFtei1TaWduYXR1cmU9ZDI0MjZkZmI4MjlhOTliY2Q5ZTczNGU3MzgxZWZjZjIxZDM3MWY0NmY5Y2EwMjc0ZDllOWUwMmI5Y2E1MGNmYyZYLUFtei1TaWduZWRIZWFkZXJzPWhvc3QifQ.uM1QZPLqXs1MYDo2CP2i1C4b0EifBXeC-lrpRnAfrr0"
 description = "Laravel Framework 의 근간인 Dependency Injection 을 담당하는 IoC Container 를 살펴봅니다."
+tags = ["development"]
 +++
+
 [Laravel](https://laravel.kr/) 의 제어의 역전(Inversion of Control) / 의존성 주입 (Dependency Injection) 컨테이너는 매우 강력한 기능입니다. 안타깝게도, 라라벨의 [공식 문서](https://laravel.kr/docs/5.6/)는 이 기능의 모든 면을 설명하고 있지 않습니다. 그런 이유로 저는 직접 이 기능들을 실험하여 본 문서를 작성했습니다. 이 문서는 [Laravel 5.4.26](https://github.com/laravel/framework/tree/5.4/src/Illuminate/Container) 버전을 기준으로 작성되었으며, 그 외 버전은 기능이 다를 수 있습니다. **이 문서는 번역되었습니다.** _번역한 문서는 [이곳](https://gist.github.com/davejamesmiller/bd857d9b0ac895df7604dd2e63b23afe)을 클릭하시면 이동하실 수 있습니다._
 
 
