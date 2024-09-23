@@ -118,7 +118,7 @@ paginate = 20
         [[languages.ko.menu.main]]
           identifier = "about"
           name = "About"
-          url = "/about.en"
+          url = "/about"
 
   [languages.ja]
     disabled = false

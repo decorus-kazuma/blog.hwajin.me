@@ -1,36 +1,365 @@
-<!doctype html><html lang=ko><head><title>Leetcode - Add Two Numbers :: Hwajin's Blog</title>
-<meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=description content="ou are given two **non-empty** linked lists representing two non-negative integers. The digits are stored in **reverse order**, and each of their nodes contains a single digit. Add the two numbers and return the sum as a linked list."><meta name=keywords content="Software Engineering,Develop,Backend Engineer"><meta name=robots content="noodp"><link rel=canonical href=https://example.org/ko/posts/2022/04/04/leetcode-add-two-numbers/><script async src="https://www.googletagmanager.com/gtag/js?id=G-LJWJ9LNV2L"></script><script>var dnt,doNotTrack=!1;if(!1&&(dnt=navigator.doNotTrack||window.doNotTrack||navigator.msDoNotTrack,doNotTrack=dnt=="1"||dnt=="yes"),!doNotTrack){window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date),gtag("config","G-LJWJ9LNV2L")}</script><link rel=stylesheet href=https://example.org/css/buttons.min.2bc533403a27dfe0e93105a92502b42ce4587e2e4a87d9f7d349e51e16e09478.css><link rel=stylesheet href=https://example.org/css/code.min.00125962708925857e7b66dbc58391d55be1191a3d0ce2034de8c9cd2c481c36.css><link rel=stylesheet href=https://example.org/css/fonts.min.90c955c31dd7c0e05aae3d4f583d4d8a2af799d69c961337eaf2a825063a55dd.css><link rel=stylesheet href=https://example.org/css/footer.min.2e3eb191baee58dd05a9f0104ac1fab0827bca7c64dafe0b2579f934c33a1d69.css><link rel=stylesheet href=https://example.org/css/gist.min.a751e8b0abe1ba8bc53ced52a38b19d8950fe78ca29454ea8c2595cf26aad5c0.css><link rel=stylesheet href=https://example.org/css/header.min.b6fb4423cf82a9f9d7abc9cd010223fa3d70a6526a3f28f8e17d814c06e18f9e.css><link rel=stylesheet href=https://example.org/css/main.min.1d8be2dd1b5de9fdaed058c8c59fcf4485f36619574abfb47ed0cfda4812c16d.css><link rel=stylesheet href=https://example.org/css/menu.min.83637a90d903026bc280d3f82f96ceb06c5fc72b7c1a8d686afb5bbf818a29f7.css><link rel=stylesheet href=https://example.org/css/pagination.min.82f6400eae7c7c6dc3c866733c2ec0579e4089608fea69400ff85b3880aa0d3c.css><link rel=stylesheet href=https://example.org/css/post.min.fc74ca360273c1d828da3c02b8174eba435607b369d98418ccc6f2243cd4e75d.css><link rel=stylesheet href=https://example.org/css/prism.min.9023bbc24533d09e97a51a0a42a5a7bfe4c591ae167c5551fb1d2191d11977c0.css><link rel=stylesheet href=https://example.org/css/syntax.min.cc789ed9377260d7949ea4c18781fc58959a89287210fe4edbff44ebfc1511b6.css><link rel=stylesheet href=https://example.org/css/terminal.min.736caf886baa67df630c4cde30fbdc5115122eb74c6246f15a31401344bfa2f0.css><link rel=stylesheet href=https://example.org/css/terms.min.b81791663c3790e738e571cdbf802312390d30e4b1d8dc9d814a5b5454d0ac11.css><link rel="shortcut icon" href=https://example.org/favicon.png><link rel=apple-touch-icon href=https://example.org/apple-touch-icon.png><meta name=twitter:card content="summary"><meta property="og:locale" content="ko"><meta property="og:type" content="article"><meta property="og:title" content="Leetcode - Add Two Numbers"><meta property="og:description" content="ou are given two **non-empty** linked lists representing two non-negative integers. The digits are stored in **reverse order**, and each of their nodes contains a single digit. Add the two numbers and return the sum as a linked list."><meta property="og:url" content="https://example.org/ko/posts/2022/04/04/leetcode-add-two-numbers/"><meta property="og:site_name" content="Hwajin's Blog"><meta property="og:image" content="https://example.org/og-image.png"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="627"><meta property="article:published_time" content="2022-04-04 23:18:00 +0900 JST"></head><body><div class=container><header class=header><div class=header__inner><div class=header__logo><a href=/><div class=logo>Hwajin's Blog</div></a></div><ul class="menu menu--mobile"><li class=menu__trigger>Menu&nbsp;▾</li><li><ul class=menu__dropdown><li><a href=/about.en>About</a></li><hr><li><a href=https://example.org/>🇺🇸 English</a></li><li><a href=https://example.org/ko/>🇰🇷 Korean</a></li><li><a href=https://example.org/ja/>🇯🇵 Japanese</a></li></ul></li></ul><ul class="menu menu--desktop menu--language-selector"><li class=menu__trigger>🇰🇷 Korean&nbsp;▾</li><li><ul class=menu__dropdown><li><a href=https://example.org/>🇺🇸 English</a></li><li><a href=https://example.org/ko/>🇰🇷 Korean</a></li><li><a href=https://example.org/ja/>🇯🇵 Japanese</a></li></ul></li></ul></div><nav class=navigation-menu><ul class="navigation-menu__inner menu--desktop"><li><a href=/about.en>About</a></li></ul></nav></header><div class=content><article class=post><h1 class=post-title><a href=https://example.org/ko/posts/2022/04/04/leetcode-add-two-numbers/>Leetcode - Add Two Numbers</a></h1><div class=post-meta><time class=post-date>2022-04-04</time><span class=post-author>Hwajin Lee</span><span class=post-reading-time>2 min read (228 words)</span></div><span class=post-tags>#<a href=https://example.org/ko/tags/algorithm/>algorithm</a>&nbsp;</span><div class=table-of-contents><h2>Table of Contents</h2><nav id=TableOfContents><ul><li><a href=#solution>Solution,</a></li></ul></nav></div><div class=post-content><div><p>You are given two <strong>non-empty</strong> linked lists representing two non-negative integers. The digits are stored in <strong>reverse order</strong>, and each of their nodes contains a single digit. Add the two numbers and return the sum as a linked list.</p><p>You may assume the two numbers do not contain any leading zero, except the number 0 itself.</p><p><strong>Example 1:</strong></p><pre tabindex=0><code>Input: l1 = [2,4,3], l2 = [5,6,4]
+<!DOCTYPE html>
+<html lang="ko">
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+  
+    <title>Leetcode - Add Two Numbers :: Hwajin&#39;s Blog</title>
+  
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="ou are given two **non-empty** linked lists representing two non-negative integers. The digits are stored in **reverse order**, and each of their nodes contains a single digit. Add the two numbers and return the sum as a linked list." />
+<meta name="keywords" content="Software Engineering,Develop,Backend Engineer" />
+
+  <meta name="robots" content="noodp" />
+
+<link rel="canonical" href="http://localhost:1313/ko/posts/2022/04/04/leetcode-add-two-numbers/" />
+
+
+      <script async src="https://www.googletagmanager.com/gtag/js?id=G-LJWJ9LNV2L"></script>
+      <script>
+        var doNotTrack = false;
+        if ( false ) {
+          var dnt = (navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack);
+          var doNotTrack = (dnt == "1" || dnt == "yes");
+        }
+        if (!doNotTrack) {
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'G-LJWJ9LNV2L');
+        }
+      </script>
+
+
+
+  
+  <link rel="stylesheet" href="http://localhost:1313/css/buttons.min.2bc533403a27dfe0e93105a92502b42ce4587e2e4a87d9f7d349e51e16e09478.css">
+
+  
+  <link rel="stylesheet" href="http://localhost:1313/css/code.min.00125962708925857e7b66dbc58391d55be1191a3d0ce2034de8c9cd2c481c36.css">
+
+  
+  <link rel="stylesheet" href="http://localhost:1313/css/fonts.min.90c955c31dd7c0e05aae3d4f583d4d8a2af799d69c961337eaf2a825063a55dd.css">
+
+  
+  <link rel="stylesheet" href="http://localhost:1313/css/footer.min.bcfa5020d45c21f5afeedb4b6bf62e24324dbcd1aacf4dd9e43cf9d9ee3c7b5e.css">
+
+  
+  <link rel="stylesheet" href="http://localhost:1313/css/gist.min.a751e8b0abe1ba8bc53ced52a38b19d8950fe78ca29454ea8c2595cf26aad5c0.css">
+
+  
+  <link rel="stylesheet" href="http://localhost:1313/css/header.min.b6fb4423cf82a9f9d7abc9cd010223fa3d70a6526a3f28f8e17d814c06e18f9e.css">
+
+  
+  <link rel="stylesheet" href="http://localhost:1313/css/main.min.1d8be2dd1b5de9fdaed058c8c59fcf4485f36619574abfb47ed0cfda4812c16d.css">
+
+  
+  <link rel="stylesheet" href="http://localhost:1313/css/menu.min.33e84c2923befc8a99f25a35d3b7d46e75fc2a1fd84c059465d61fb39c7b1551.css">
+
+  
+  <link rel="stylesheet" href="http://localhost:1313/css/pagination.min.82f6400eae7c7c6dc3c866733c2ec0579e4089608fea69400ff85b3880aa0d3c.css">
+
+  
+  <link rel="stylesheet" href="http://localhost:1313/css/post.min.3a66ab82963132dd3fabf210ebecf11977b6ab10ff6fb86e17daf210c64a39c0.css">
+
+  
+  <link rel="stylesheet" href="http://localhost:1313/css/prism.min.ca6800ca3dc6b21843a1efbd3f4d2dc4346b440a7455693432ba4775135292a1.css">
+
+  
+  <link rel="stylesheet" href="http://localhost:1313/css/syntax.min.962669087b6f54db2dc27d75f1740fba3b9a2d59a5b5fbc2462361f02a37496c.css">
+
+  
+  <link rel="stylesheet" href="http://localhost:1313/css/terminal.min.10fda5e8ed0224e54ed48fe1fb17b7194a48baba7180b5a3fa0df302856ddde3.css">
+
+  
+  <link rel="stylesheet" href="http://localhost:1313/css/terms.min.b81791663c3790e738e571cdbf802312390d30e4b1d8dc9d814a5b5454d0ac11.css">
+
+
+
+
+
+
+
+<link rel="shortcut icon" href="http://localhost:1313/favicon.png">
+<link rel="apple-touch-icon" href="http://localhost:1313/apple-touch-icon.png">
+
+
+<meta name="twitter:card" content="summary" />
+
+
+
+<meta property="og:locale" content="ko" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="Leetcode - Add Two Numbers">
+<meta property="og:description" content="ou are given two **non-empty** linked lists representing two non-negative integers. The digits are stored in **reverse order**, and each of their nodes contains a single digit. Add the two numbers and return the sum as a linked list." />
+<meta property="og:url" content="http://localhost:1313/ko/posts/2022/04/04/leetcode-add-two-numbers/" />
+<meta property="og:site_name" content="Hwajin&#39;s Blog" />
+
+  <meta property="og:image" content="http://localhost:1313/og-image.png">
+
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="627">
+
+
+  <meta property="article:published_time" content="2022-04-04 23:18:00 &#43;0900 JST" />
+
+
+
+
+
+
+
+
+
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+<script>
+  MathJax = {
+    tex: {
+      displayMath: [['\\[', '\\]'], ['$$', '$$']],  
+      inlineMath: [['\\(', '\\)']]                  
+    }
+  };
+</script>
+<meta name="naver-site-verification" content="04189f3919dcbb9325a69d0fa37208e850615030" />
+
+
+</head>
+<body>
+
+
+<div class="container">
+
+  <header class="header">
+  <div class="header__inner">
+    <div class="header__logo">
+      <a href="/">
+  <div class="logo">
+    Hwajin&#39;s Blog
+  </div>
+</a>
+
+    </div>
+    
+      <ul class="menu menu--mobile">
+  <li class="menu__trigger">Menu&nbsp;▾</li>
+  <li>
+    <ul class="menu__dropdown">
+      
+        
+          <li><a href="/about">About</a></li>
+        
+      
+      
+        <hr />
+        
+          <li>
+            <a href="http://localhost:1313/">🇺🇸 English</a>
+          </li>
+        
+          <li>
+            <a href="http://localhost:1313/ko/">🇰🇷 Korean</a>
+          </li>
+        
+          <li>
+            <a href="http://localhost:1313/ja/">🇯🇵 Japanese</a>
+          </li>
+        
+      
+    </ul>
+  </li>
+</ul>
+
+    
+    
+      <ul class="menu menu--desktop menu--language-selector">
+  <li class="menu__trigger">🇰🇷 Korean&nbsp;▾</li>
+  <li>
+    <ul class="menu__dropdown">
+      
+        <li><a href="http://localhost:1313/">🇺🇸 English</a></li>
+      
+        <li><a href="http://localhost:1313/ko/">🇰🇷 Korean</a></li>
+      
+        <li><a href="http://localhost:1313/ja/">🇯🇵 Japanese</a></li>
+      
+    </ul>
+  </li>
+</ul>
+
+    
+  </div>
+  
+    <nav class="navigation-menu">
+  <ul class="navigation-menu__inner menu--desktop">
+    
+      
+        
+          <li><a href="/about" >About</a></li>
+        
+      
+      
+    
+  </ul>
+</nav>
+
+  
+</header>
+
+
+  <div class="content">
+    
+<article class="post">
+  <h1 class="post-title">
+    <a href="http://localhost:1313/ko/posts/2022/04/04/leetcode-add-two-numbers/">Leetcode - Add Two Numbers</a>
+  </h1>
+  <div class="post-meta"><time class="post-date">2022-04-04</time><span class="post-author">Hwajin Lee</span><span class="post-reading-time">2 min read (228 words)</span></div>
+
+  
+    <span class="post-tags">
+      
+      #<a href="http://localhost:1313/ko/tags/algorithm/">algorithm</a>&nbsp;
+      
+    </span>
+  
+  
+
+
+  ou are given two <strong>non-empty</strong> linked lists representing two non-negative integers. The digits are stored in <strong>reverse order</strong>, and each of their nodes contains a single digit. Add the two numbers and return the sum as a linked list.
+
+  
+    <div class="table-of-contents">
+      <h2>
+        Table of Contents
+      </h2>
+      <nav id="TableOfContents">
+  <ul>
+    <li><a href="#solution">Solution,</a></li>
+  </ul>
+</nav>
+    </div>
+  
+
+  <div class="post-content"><div>
+        <p>You are given two <strong>non-empty</strong> linked lists representing two non-negative integers. The digits are stored in <strong>reverse order</strong>, and each of their nodes contains a single digit. Add the two numbers and return the sum as a linked list.</p>
+<p>You may assume the two numbers do not contain any leading zero, except the number 0 itself.</p>
+<p><strong>Example 1:</strong></p>
+<pre tabindex="0"><code>Input: l1 = [2,4,3], l2 = [5,6,4]
 Output: [7,0,8]
 Explanation: 342 + 465 = 807.
-</code></pre><p><strong>Example 2:</strong></p><pre tabindex=0><code>Input: l1 = [0], l2 = [0]
+</code></pre><p><strong>Example 2:</strong></p>
+<pre tabindex="0"><code>Input: l1 = [0], l2 = [0]
 Output: [0]
-</code></pre><p><strong>Example 3:</strong></p><pre tabindex=0><code>Input: l1 = [9,9,9,9,9,9,9], l2 = [9,9,9,9]
+</code></pre><p><strong>Example 3:</strong></p>
+<pre tabindex="0"><code>Input: l1 = [9,9,9,9,9,9,9], l2 = [9,9,9,9]
 Output: [8,9,9,9,0,0,0,1]
-</code></pre><h2 id=solution>Solution,<a href=#solution class=hanchor arialabel=Anchor>#</a></h2><p>Reverse Order 라길래 멍청하게 처음에는 Stack 으로 짰다 (..). 무척이나 개발자 스럽게도 <code>0</code> 번 인덱스를 고려한 것이었다. 제발 이런 멍청한 실수는 하지 말자.</p><p>연결 리스트를 끝까지 탐색하며 더하면 끝.</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=display:flex><span><span style=color:#f92672>import</span> java.util.*;
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span><span style=color:#66d9ef>class</span> <span style=color:#a6e22e>Solution</span> {
-</span></span><span style=display:flex><span>    <span style=color:#66d9ef>public</span> ListNode <span style=color:#a6e22e>addTwoNumbers</span>(ListNode l1, ListNode l2) {
-</span></span><span style=display:flex><span>        ListNode p1 <span style=color:#f92672>=</span> l1;
-</span></span><span style=display:flex><span>        ListNode p2 <span style=color:#f92672>=</span> l2;
-</span></span><span style=display:flex><span>        ListNode result <span style=color:#f92672>=</span> <span style=color:#66d9ef>new</span> ListNode(<span style=color:#f92672>-</span>1);
-</span></span><span style=display:flex><span>        ListNode ret <span style=color:#f92672>=</span> result;
-</span></span><span style=display:flex><span>        <span style=color:#66d9ef>int</span> carry <span style=color:#f92672>=</span> 0;
-</span></span><span style=display:flex><span>        <span style=color:#66d9ef>while</span> (p1 <span style=color:#f92672>!=</span> <span style=color:#66d9ef>null</span> <span style=color:#f92672>||</span> p2 <span style=color:#f92672>!=</span> <span style=color:#66d9ef>null</span>) {
-</span></span><span style=display:flex><span>            <span style=color:#66d9ef>int</span> val <span style=color:#f92672>=</span> (p1 <span style=color:#f92672>!=</span> <span style=color:#66d9ef>null</span> <span style=color:#f92672>?</span> p1.<span style=color:#a6e22e>val</span> : 0) <span style=color:#f92672>+</span> (p2 <span style=color:#f92672>!=</span> <span style=color:#66d9ef>null</span> <span style=color:#f92672>?</span> p2.<span style=color:#a6e22e>val</span> : 0) <span style=color:#f92672>+</span> carry;
-</span></span><span style=display:flex><span>            result.<span style=color:#a6e22e>next</span> <span style=color:#f92672>=</span> <span style=color:#66d9ef>new</span> ListNode(val <span style=color:#f92672>%</span> 10);
-</span></span><span style=display:flex><span>            result <span style=color:#f92672>=</span> result.<span style=color:#a6e22e>next</span>;
-</span></span><span style=display:flex><span>            carry <span style=color:#f92672>=</span> val <span style=color:#f92672>/</span> 10;
-</span></span><span style=display:flex><span>            
-</span></span><span style=display:flex><span>            <span style=color:#66d9ef>if</span> (p1 <span style=color:#f92672>!=</span> <span style=color:#66d9ef>null</span>) p1 <span style=color:#f92672>=</span> p1.<span style=color:#a6e22e>next</span>;
-</span></span><span style=display:flex><span>            <span style=color:#66d9ef>if</span> (p2 <span style=color:#f92672>!=</span> <span style=color:#66d9ef>null</span>) p2 <span style=color:#f92672>=</span> p2.<span style=color:#a6e22e>next</span>;
-</span></span><span style=display:flex><span>        }
-</span></span><span style=display:flex><span>        
-</span></span><span style=display:flex><span>        <span style=color:#66d9ef>if</span> (carry <span style=color:#f92672>!=</span> 0) result.<span style=color:#a6e22e>next</span> <span style=color:#f92672>=</span> <span style=color:#66d9ef>new</span> ListNode(1);
-</span></span><span style=display:flex><span>        
-</span></span><span style=display:flex><span>        <span style=color:#66d9ef>return</span> ret.<span style=color:#a6e22e>next</span>;
-</span></span><span style=display:flex><span>    }
-</span></span><span style=display:flex><span>}
-</span></span></code></pre></div></div></div><div class=pagination><div class=pagination__title><span class=pagination__title-h>Read other posts</span><hr></div><div class=pagination__buttons><a href=https://example.org/ko/posts/2022/04/05/leetcode-count-odd-numbers-in-an-interval-range/ class="button inline prev">Leetcode - Count Odd Numbers in an Interval Range
-</a>::
-<a href=https://example.org/ko/posts/2022/04/04/leetcode-swap-nodes-in-pairs/ class="button inline next">Leetcode - Swap Nodes In Pairs</a></div></div></article></div><footer class=footer><div class=footer__inner><div class=copyright><span>© 2024 Powered by <a href=https://gohugo.io>Hugo</a></span>
-<span>:: <a href=https://github.com/panr/hugo-theme-terminal target=_blank>Theme</a> made by <a href=https://github.com/panr target=_blank>panr</a></span></div></div></footer><script type=text/javascript src=/bundle.min.js></script></div></body></html>
+</code></pre><h2 id="solution">Solution,<a href="#solution" class="hanchor" ariaLabel="Anchor">#</a> </h2>
+<p>Reverse Order 라길래 멍청하게 처음에는 Stack 으로 짰다 (..). 무척이나 개발자 스럽게도 <code>0</code> 번 인덱스를 고려한 것이었다. 제발 이런 멍청한 실수는 하지 말자.</p>
+<p>연결 리스트를 끝까지 탐색하며 더하면 끝.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#f92672">import</span> java.util.*;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Solution</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> ListNode <span style="color:#a6e22e">addTwoNumbers</span>(ListNode l1, ListNode l2) {
+</span></span><span style="display:flex;"><span>        ListNode p1 <span style="color:#f92672">=</span> l1;
+</span></span><span style="display:flex;"><span>        ListNode p2 <span style="color:#f92672">=</span> l2;
+</span></span><span style="display:flex;"><span>        ListNode result <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> ListNode(<span style="color:#f92672">-</span>1);
+</span></span><span style="display:flex;"><span>        ListNode ret <span style="color:#f92672">=</span> result;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">int</span> carry <span style="color:#f92672">=</span> 0;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">while</span> (p1 <span style="color:#f92672">!=</span> <span style="color:#66d9ef">null</span> <span style="color:#f92672">||</span> p2 <span style="color:#f92672">!=</span> <span style="color:#66d9ef">null</span>) {
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">int</span> val <span style="color:#f92672">=</span> (p1 <span style="color:#f92672">!=</span> <span style="color:#66d9ef">null</span> <span style="color:#f92672">?</span> p1.<span style="color:#a6e22e">val</span> : 0) <span style="color:#f92672">+</span> (p2 <span style="color:#f92672">!=</span> <span style="color:#66d9ef">null</span> <span style="color:#f92672">?</span> p2.<span style="color:#a6e22e">val</span> : 0) <span style="color:#f92672">+</span> carry;
+</span></span><span style="display:flex;"><span>            result.<span style="color:#a6e22e">next</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> ListNode(val <span style="color:#f92672">%</span> 10);
+</span></span><span style="display:flex;"><span>            result <span style="color:#f92672">=</span> result.<span style="color:#a6e22e">next</span>;
+</span></span><span style="display:flex;"><span>            carry <span style="color:#f92672">=</span> val <span style="color:#f92672">/</span> 10;
+</span></span><span style="display:flex;"><span>            
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> (p1 <span style="color:#f92672">!=</span> <span style="color:#66d9ef">null</span>) p1 <span style="color:#f92672">=</span> p1.<span style="color:#a6e22e">next</span>;
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> (p2 <span style="color:#f92672">!=</span> <span style="color:#66d9ef">null</span>) p2 <span style="color:#f92672">=</span> p2.<span style="color:#a6e22e">next</span>;
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>        
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (carry <span style="color:#f92672">!=</span> 0) result.<span style="color:#a6e22e">next</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> ListNode(1);
+</span></span><span style="display:flex;"><span>        
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> ret.<span style="color:#a6e22e">next</span>;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div>
+      </div></div>
+
+  
+    
+<div class="pagination">
+  <div class="pagination__title">
+    <span class="pagination__title-h">Read other posts</span>
+    <hr />
+  </div>
+  <div class="pagination__buttons">
+    
+      <a href="http://localhost:1313/ko/posts/2022/04/05/leetcode-count-odd-numbers-in-an-interval-range/" class="button inline prev">
+        Leetcode - Count Odd Numbers in an Interval Range
+      </a>
+    
+    
+      ::
+    
+    
+      <a href="http://localhost:1313/ko/posts/2022/04/04/leetcode-swap-nodes-in-pairs/" class="button inline next">
+        Leetcode - Swap Nodes In Pairs
+      </a>
+    
+  </div>
+</div>
+
+
+  
+
+  
+    <div class="pagination">
+   <div class="pagination__title">
+     <span class="pagination__title-h">COMMENTS</span>
+     <hr />
+   </div>
+  </div>
+  <script src="https://giscus.app/client.js"
+    data-repo="hwajin-me/blog.hwajin.me"
+    data-repo-id="MDEwOlJlcG9zaXRvcnkyNDUzNTI0Mjk="
+    data-category="General"
+    data-category-id="DIC_kwDODp_H7c4COW6Q"
+    data-mapping="pathname"
+    data-reactions-enabled="1"
+    data-emit-metadata="1"
+    data-input-position="bottom"
+    data-theme="dark_high_contrast"
+    data-lang="en"
+    data-loading="lazy"
+    crossorigin="anonymous"
+    async>
+  </script>
+  
+</article>
+
+  </div>
+
+  
+    <footer class="footer">
+  <div class="footer__inner">
+    
+      <div class="copyright">
+        <span>© 2024 Powered by <a href="https://gohugo.io">Hugo</a></span>
+    
+      <span>:: <a href="https://github.com/panr/hugo-theme-terminal" target="_blank">Theme</a> made by <a href="https://github.com/panr" target="_blank">panr</a></span>
+      </div>
+  </div>
+</footer>
+
+
+
+
+
+
+<script type="text/javascript" src="/bundle.min.js"></script>
+
+
+
+
+
+  
+</div>
+
+</body>
+</html>
