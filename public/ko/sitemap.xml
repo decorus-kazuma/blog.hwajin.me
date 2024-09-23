@@ -4,6 +4,16 @@
   <url>
     <loc>http://localhost:1313/ko/tags/algorithm/</loc>
     <lastmod>2024-01-10T00:52:00+00:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="ja"
+                href="http://localhost:1313/ja/tags/algorithm/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="ko"
+                href="http://localhost:1313/ko/tags/algorithm/"
+                />
   </url><url>
     <loc>http://localhost:1313/ko/</loc>
     <lastmod>2024-01-10T00:52:00+00:00</lastmod>
@@ -25,21 +35,41 @@
   </url><url>
     <loc>http://localhost:1313/ko/posts/2024/01/10/leetcode-215-kth-largest-element-in-an-array/</loc>
     <lastmod>2024-01-10T00:52:00+00:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="ja"
+                href="http://localhost:1313/ja/posts/2024/01/10/leetcode-215-kth-largest-element-in-an-array/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="ko"
+                href="http://localhost:1313/ko/posts/2024/01/10/leetcode-215-kth-largest-element-in-an-array/"
+                />
   </url><url>
     <loc>http://localhost:1313/ko/posts/</loc>
     <lastmod>2024-01-10T00:52:00+00:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="ja"
+                href="http://localhost:1313/ja/posts/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="ko"
+                href="http://localhost:1313/ko/posts/"
+                />
   </url><url>
     <loc>http://localhost:1313/ko/tags/</loc>
     <lastmod>2024-01-10T00:52:00+00:00</lastmod>
     <xhtml:link
                 rel="alternate"
-                hreflang="en"
-                href="http://localhost:1313/tags/"
+                hreflang="ja"
+                href="http://localhost:1313/ja/tags/"
                 />
     <xhtml:link
                 rel="alternate"
-                hreflang="ja"
-                href="http://localhost:1313/ja/tags/"
+                hreflang="en"
+                href="http://localhost:1313/tags/"
                 />
     <xhtml:link
                 rel="alternate"
@@ -48,19 +78,19 @@
                 />
   </url><url>
     <loc>http://localhost:1313/ko/tags/ddd/</loc>
-    <lastmod>2022-05-06T00:35:00+00:00</lastmod>
+    <lastmod>2022-05-06T00:35:00+09:00</lastmod>
   </url><url>
     <loc>http://localhost:1313/ko/tags/development/</loc>
-    <lastmod>2022-05-06T00:35:00+00:00</lastmod>
+    <lastmod>2022-05-06T00:35:00+09:00</lastmod>
   </url><url>
     <loc>http://localhost:1313/ko/tags/domain-driven-design/</loc>
-    <lastmod>2022-05-06T00:35:00+00:00</lastmod>
+    <lastmod>2022-05-06T00:35:00+09:00</lastmod>
   </url><url>
     <loc>http://localhost:1313/ko/tags/idea/</loc>
-    <lastmod>2022-05-06T00:35:00+00:00</lastmod>
+    <lastmod>2022-05-06T00:35:00+09:00</lastmod>
   </url><url>
     <loc>http://localhost:1313/ko/posts/2022/05/06/design-and-management-of-aggregate-root-ddd/</loc>
-    <lastmod>2022-05-06T00:35:00+00:00</lastmod>
+    <lastmod>2022-05-06T00:35:00+09:00</lastmod>
   </url><url>
     <loc>http://localhost:1313/ko/posts/2022/04/29/leetcode-rotate-array/</loc>
     <lastmod>2022-04-29T01:31:12+00:00</lastmod>

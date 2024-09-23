@@ -6,11 +6,11 @@
     <description>Recent content in Idea on Hwajin&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>ko</language>
-    <lastBuildDate>Fri, 06 May 2022 00:35:00 +0000</lastBuildDate><atom:link href="http://localhost:1313/ko/tags/idea/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 06 May 2022 00:35:00 +0900</lastBuildDate><atom:link href="http://localhost:1313/ko/tags/idea/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>도메인 주도 설계의 Aggregate Root를 설계하고 유지하는 법</title>
       <link>http://localhost:1313/ko/posts/2022/05/06/design-and-management-of-aggregate-root-ddd/</link>
-      <pubDate>Fri, 06 May 2022 00:35:00 +0000</pubDate>
+      <pubDate>Fri, 06 May 2022 00:35:00 +0900</pubDate>
       
       <guid>http://localhost:1313/ko/posts/2022/05/06/design-and-management-of-aggregate-root-ddd/</guid>
       <description>&lt;h2 id=&#34;코드의-생명-주기lifecycle&#34;&gt;코드의 생명 주기(Lifecycle)&lt;/h2&gt;

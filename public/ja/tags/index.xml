@@ -5,6 +5,17 @@
     <link>http://localhost:1313/ja/tags/</link>
     <description>Recent content in Tags on Hwajin&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
-    <language>ja</language><atom:link href="http://localhost:1313/ja/tags/index.xml" rel="self" type="application/rss+xml" />
+    <language>ja</language>
+    <lastBuildDate>Wed, 10 Jan 2024 00:52:00 +0000</lastBuildDate><atom:link href="http://localhost:1313/ja/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Algorithm</title>
+      <link>http://localhost:1313/ja/tags/algorithm/</link>
+      <pubDate>Wed, 10 Jan 2024 00:52:00 +0000</pubDate>
+      
+      <guid>http://localhost:1313/ja/tags/algorithm/</guid>
+      <description></description>
+      <content></content>
+    </item>
+    
   </channel>
 </rss>

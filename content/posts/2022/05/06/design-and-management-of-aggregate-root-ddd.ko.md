@@ -1,9 +1,10 @@
 +++
 title = "도메인 주도 설계의 Aggregate Root를 설계하고 유지하는 법"
-date = "2022-05-06 00:35:00"
+date = "2022-05-06T00:35:00+09:00"
 author = "Hwajin Lee"
 tags = ["development","idea","ddd","domain-driven-design"]
 description = "Aggregate Root 는 도메인 단위이자, 우리가 현실 세계를 기술하는 명세이기도 합니다. 정적인 코드가 동적인 세계와 결합 되어 변화하는 시점을 파악하고, 그것을 통해 모델을 도출하는 것은 서비스를 개발하는 개발자에게 있어 가장 큰 일입니다. 그러나, 이러한 도메인 객체 설계가 좋은 방향으로 동작하기 위해서는 사전에 많은 작업이 필요합니다. 올바르게 각 요소를 Aggregate Root로 쪼개고, 묶는 방법은 무엇일까요."
+keywords = ["DDD"]
 +++
 
 ## 코드의 생명 주기(Lifecycle)
