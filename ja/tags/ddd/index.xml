@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Ddd on Hwajin's Blog</title><link>https://blog.hwajin.me/ja/tags/ddd/</link><description>Recent content in Ddd on Hwajin's Blog</description><generator>Hugo -- gohugo.io</generator><language>ja</language><lastBuildDate>Fri, 06 May 2022 00:35:00 +0900</lastBuildDate><atom:link href="https://blog.hwajin.me/ja/tags/ddd/index.xml" rel="self" type="application/rss+xml"/><item><title>ドメイン駆動設計のAggregate Rootを設計&amp;維持する方法論</title><link>https://blog.hwajin.me/ja/posts/2022/05/06/design-and-management-of-aggregate-root-ddd/</link><pubDate>Fri, 06 May 2022 00:35:00 +0900</pubDate><guid>https://blog.hwajin.me/ja/posts/2022/05/06/design-and-management-of-aggregate-root-ddd/</guid><description>&lt;h2 id="コードのライフサイクル">コードのライフサイクル&lt;/h2>
+&lt;p>コードもまた、さまざまな理由で生成と消滅を繰り返します。私たちは、コードに反映される現実がすでに過去のものであることを理解しています。これが静的なコードが持つ限界であり、しばしば「将来の変化に備えた設計」を行うことがあります。しかし、このアプローチは危険な結果を招く可能性があります。ビジネスの世界は急速に変化し、それに伴い私たちのコードも激しく変わり、進化していきます。コードはビジネスのライフサイクルと深い結びつきを持っているため、将来のための設計は、しばしば意図しない使われ方をしたり、そもそも使われる機会がないことも多いです。同じプロジェクトで、同じ企画者や開発者が作り出したサービスであっても同様です。そして、これらの要件の変化は決して異常なことでも、誤りでもありません。&lt;/p>
+&lt;p>これらのライフサイクルを把握し、分析して、現時点のドメインに最適なオブジェクトを設計することが、私たちの目指す目標です。将来に備えるには、適切な責任を持つオブジェクトを設計し、拡張性の高いソフトウェアを構築すること、そして明細を分離し、抽象化する技術を活用することが重要です。レガシーと呼ばれる巨大なシステムは、単に「未来に使えそうな機能」を多く持たないからではなく、複雑に絡み合った依存関係と、修正が困難なほど巨大なコードベースに起因します。&lt;/p>
+&lt;p>ご存知のとおり、コードのライフサイクルはビジネスの成長速度や方向性に大きな影響を受けます。したがって、私たちがコードやオブジェクトを設計する際に最も重視すべきは、これらのライフサイクルと強く結びつき、同じライフサイクルを共有するシステムを開発することです。この点が明確であれば、オブジェクトの凝集度や結合度にも自然と配慮でき、結果として適切な設計に繋がるのです。&lt;/p>
+&lt;h2 id="最小責任の原則">最小責任の原則&lt;/h2>
+&lt;p>　オブジェクトを設計する際、巨大なオブジェクトは必然的に問題を引き起こします。実際、オブジェクトが大きくなっている時点で、すでに設計上の問題があることを示しているのです。たとえば、注文を管理するAggregate Rootを設計する場合を考えてみましょう。&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-java" data-lang="java">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#a6e22e">@AggregateRoot&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">class&lt;/span> &lt;span style="color:#a6e22e">Order&lt;/span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#75715e">// いろんな機能(order placed, etc..)&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>注文を管理するAggregate Rootがどの範囲まで担当すべきかについて、明確な正解はありません。しかし、基本的には小さければ小さいほど良いです。Aggregate Rootや他のオブジェクトを設計する際の基本原則は、分割不可能な単位まで細かく分けて表現することです。Microservice architectureなどの流行りなシステムが、かえって複雑さを増してしまう理由の一つは、この基本原則を無視して開発されているからです。ドメイン駆動設計において、大きなAggregate Rootは多くの問題を引き起こします。たとえそれが論理的に見て「凝集度の高い」コードであったとしても、問題が生じることがあるのです。&lt;/p>
+&lt;p>도메인 로직이 존재해야 하는 곳은 Domain Layer이고, 각 도메인의 Aggregate Root는 이를 모두 담당하게 되어 있습니다. 이러한 설계에서, 객체에 많은 책임을 부여하거나, 설령 적은 책임에 많은 기능을 부여하여도 Aggregate Root는 이미 우리가 관리할 수 있는 범주를 넘어설 것입니다.&lt;/p>
+&lt;p>작은 객체를 설계할 수 없는 때는 분명 존재합니다. 이것은 당연한 일입니다. 그러나 Method(Aggregate Root의 관점에서, 비즈니스 로직의 행위)의 구현은 객체간의 협력으로 달성시킬 수 있습니다. 무상태 객체에 해당하는 Domain Service는, 어쩌면 여러분의 이런 문제점을 해결시켜 줄 수 있는 하나의 방법이 될 수 있습니다.&lt;/p></description><content>&lt;h2 id="コードのライフサイクル">コードのライフサイクル&lt;/h2>
+&lt;p>コードもまた、さまざまな理由で生成と消滅を繰り返します。私たちは、コードに反映される現実がすでに過去のものであることを理解しています。これが静的なコードが持つ限界であり、しばしば「将来の変化に備えた設計」を行うことがあります。しかし、このアプローチは危険な結果を招く可能性があります。ビジネスの世界は急速に変化し、それに伴い私たちのコードも激しく変わり、進化していきます。コードはビジネスのライフサイクルと深い結びつきを持っているため、将来のための設計は、しばしば意図しない使われ方をしたり、そもそも使われる機会がないことも多いです。同じプロジェクトで、同じ企画者や開発者が作り出したサービスであっても同様です。そして、これらの要件の変化は決して異常なことでも、誤りでもありません。&lt;/p>
+&lt;p>これらのライフサイクルを把握し、分析して、現時点のドメインに最適なオブジェクトを設計することが、私たちの目指す目標です。将来に備えるには、適切な責任を持つオブジェクトを設計し、拡張性の高いソフトウェアを構築すること、そして明細を分離し、抽象化する技術を活用することが重要です。レガシーと呼ばれる巨大なシステムは、単に「未来に使えそうな機能」を多く持たないからではなく、複雑に絡み合った依存関係と、修正が困難なほど巨大なコードベースに起因します。&lt;/p>
+&lt;p>ご存知のとおり、コードのライフサイクルはビジネスの成長速度や方向性に大きな影響を受けます。したがって、私たちがコードやオブジェクトを設計する際に最も重視すべきは、これらのライフサイクルと強く結びつき、同じライフサイクルを共有するシステムを開発することです。この点が明確であれば、オブジェクトの凝集度や結合度にも自然と配慮でき、結果として適切な設計に繋がるのです。&lt;/p>
+&lt;h2 id="最小責任の原則">最小責任の原則&lt;/h2>
+&lt;p>　オブジェクトを設計する際、巨大なオブジェクトは必然的に問題を引き起こします。実際、オブジェクトが大きくなっている時点で、すでに設計上の問題があることを示しているのです。たとえば、注文を管理するAggregate Rootを設計する場合を考えてみましょう。&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-java" data-lang="java">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#a6e22e">@AggregateRoot&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">class&lt;/span> &lt;span style="color:#a6e22e">Order&lt;/span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#75715e">// いろんな機能(order placed, etc..)&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>注文を管理するAggregate Rootがどの範囲まで担当すべきかについて、明確な正解はありません。しかし、基本的には小さければ小さいほど良いです。Aggregate Rootや他のオブジェクトを設計する際の基本原則は、分割不可能な単位まで細かく分けて表現することです。Microservice architectureなどの流行りなシステムが、かえって複雑さを増してしまう理由の一つは、この基本原則を無視して開発されているからです。ドメイン駆動設計において、大きなAggregate Rootは多くの問題を引き起こします。たとえそれが論理的に見て「凝集度の高い」コードであったとしても、問題が生じることがあるのです。&lt;/p>
+&lt;p>도메인 로직이 존재해야 하는 곳은 Domain Layer이고, 각 도메인의 Aggregate Root는 이를 모두 담당하게 되어 있습니다. 이러한 설계에서, 객체에 많은 책임을 부여하거나, 설령 적은 책임에 많은 기능을 부여하여도 Aggregate Root는 이미 우리가 관리할 수 있는 범주를 넘어설 것입니다.&lt;/p>
+&lt;p>작은 객체를 설계할 수 없는 때는 분명 존재합니다. 이것은 당연한 일입니다. 그러나 Method(Aggregate Root의 관점에서, 비즈니스 로직의 행위)의 구현은 객체간의 협력으로 달성시킬 수 있습니다. 무상태 객체에 해당하는 Domain Service는, 어쩌면 여러분의 이런 문제점을 해결시켜 줄 수 있는 하나의 방법이 될 수 있습니다.&lt;/p>
+&lt;h2 id="작게-만들-수-없는-설계">작게 만들 수 없는 설계&lt;/h2>
+&lt;p>하나의 Aggregate Root를 가지고 여러 시스템이 협력하는 일은 매우 빈번한 작업입니다. Batch와 같은 경우는 Aggregate Root로서 관리하기에 너무나 어렵고, 실제로 그러한 작업을 권장하지는 않습니다. 그러나, Administrator API &amp;lt;-&amp;gt; User API 가 같은 Aggregate Root를 쓰는 경우는 복잡도가 높아질 수 있습니다.&lt;/p>
+&lt;p>정답은 아닙니다만, 저는 세 가지 대안을 보통 제시합니다.&lt;/p>
+&lt;ol>
+&lt;li>Aggregate Root에 최대한 추가&lt;/li>
+&lt;li>Domain Service로 분리&lt;/li>
+&lt;li>Aggregate Root분리&lt;/li>
+&lt;/ol>
+&lt;h3 id="aggregate-root에-최대한-추가">Aggregate Root에 최대한 추가&lt;/h3>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-java" data-lang="java">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">class&lt;/span> &lt;span style="color:#a6e22e">User&lt;/span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">public&lt;/span> &lt;span style="color:#66d9ef">void&lt;/span> &lt;span style="color:#a6e22e">delete&lt;/span>() {}
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">public&lt;/span> &lt;span style="color:#66d9ef">void&lt;/span> &lt;span style="color:#a6e22e">addInformation&lt;/span>() {}
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">public&lt;/span> &lt;span style="color:#66d9ef">void&lt;/span> &lt;span style="color:#a6e22e">removeInformation&lt;/span>() {}
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#75715e">// ...and&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>이 방법은 매우 보편적인 방식입니다. 행위가 많아진다는 단점이 있지만, 객체가 자신의 행위를 공개함으로서 얻는 이점은 무척 크다고 생각합니다. 예를 들어 봅시다. 좋은 코드란, 코드 스스로가 행위와 결과를 서술할 수 있어야 합니다. 코드를 마치 시처럼, 글처럼 읽을 수 있어야 하고, 이를 다른 개발자가 사전에 필요한 지식 없이 이해할 수 있어야 합니다 &lt;em>(무척 힘들지만, 그걸 목표로 하는 것입니다)&lt;/em>&lt;/p>
+&lt;p>자, 위 코드에서 &lt;code>public&lt;/code> 을 통해 이 행위를 외부에 공개했습니다. 이는 당연, 외부에서 사용할 수 있고 사용해야 하는 행위임을 의미합니다. &lt;code>void&lt;/code> 를 통해 우리는 이 행위를 통해 그 어떤 정보도 추가로 받아올 수 없음을 알았습니다. 그리고, 행위의 이름에 그 명확한 요소가 있습니다.&lt;/p>
+&lt;p>제가 제시하는 3가지 방법 모두 Aggregate Root에 Method를 추가해야 하는 것은 맞습니다만, 이 방법을 따로 소개하는 이유는 Aggregate Root에 있는 로직을 직접 호출한다는 점이 다른 두 방식과 조금 상이합니다.&lt;/p>
+&lt;h3 id="domain-service를-이용한-분리">Domain Service를 이용한 분리&lt;/h3>
+&lt;p>Domain Service 는 아주 특수한 용도의 Service 객체입니다. 스스로 상태를 관리하지 않으며, &lt;code>Aggregate Root&lt;/code> 를 외부에서 주입 받아 사용합니다. 마치 State machine pattern 과 유사하게 동작합니다.&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-java" data-lang="java">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#a6e22e">@Service&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">class&lt;/span> &lt;span style="color:#a6e22e">UserManagementService&lt;/span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">public&lt;/span> &lt;span style="color:#66d9ef">void&lt;/span> &lt;span style="color:#a6e22e">removeInformation&lt;/span>(&lt;span style="color:#a6e22e">@Nonnull&lt;/span> User user) {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> user.&lt;span style="color:#a6e22e">removeInformation&lt;/span>();
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-java" data-lang="java">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#a6e22e">@AggregateRoot&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">class&lt;/span> &lt;span style="color:#a6e22e">User&lt;/span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">private&lt;/span> Information information;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">void&lt;/span> &lt;span style="color:#a6e22e">removeInformation&lt;/span>() {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">this&lt;/span>.&lt;span style="color:#a6e22e">information&lt;/span> &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#66d9ef">null&lt;/span>;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>이런 방식을 사용하는 이유는, 여러분이 만약 복잡한 객체를 설계했다고 가정해봅시다. 여러분의 API는 보편적으로 관리용 API와 그렇지 않은 API 두 개를 가지고 있을 것입니다. 이는 혼용되어 사용될 가능성이 높습니다. 이러한 상황 속에서, 어떠한 행위는 그 호출을 명시적으로 제한해야 할 필요가 있을 수 있습니다.&lt;/p>
+&lt;p>이러한 비즈니스 로직의 호출은 Application Layer가 담당하고, Application Layer는 호출의 정당성 &lt;em>(이 호출이 가능한가에 대한)&lt;/em> 검증을 실시함이 맞지만, 이를 도메인 로직에서 분리해야 할 상황은 현실에서 겪기 쉬운 이야기입니다. 그렇다면, 여러분은 User Aggregate Root의 행위를 은닉시키고, 호출의 책임을 &lt;code>UserManagementService&lt;/code> 로 넘길 수 있습니다. 이러한 구조는 이 코드(행위)의 소비자(호출)가 행위를 호출하는 시점에 이미 어느 정도의 정보를 알 수 있기에 꽤 괜찮은 방식이라 할 수 있을 것 같습니다. 물론, 이를 강하게 제한하고자 한다면 ArchUnit과 같은 아키텍처 테스트를 추가함이 좋습니다.&lt;/p>
+&lt;p>물론 이 방법은 단점이 있습니다. 이러한 모든 작업은, 결국 &lt;code>User&lt;/code> Aggregate Root를 작업할 때 알 수 없다는 것입니다. 필연적으로, 우리는 하나의 행위를 위해 두 번의 수정이 필요한 것입니다. 이게 좋은 패턴일까요? 합리적인 선택 속에서, 이는 그저 하나의 선택지일 뿐입니다.&lt;/p>
+&lt;h3 id="aggregate-root의-분리">Aggregate Root의 분리&lt;/h3>
+&lt;p>일단, 가장 쉬운 방식이며 가장 어려울 수 있는 방식입니다. 여러분의 Aggregate는 어쩌면 너무 비대한 객체가 되어버렸을 것입니다. 그렇다면, 우리가 취할 수 있는 &lt;em>어쩌면&lt;/em> 최선의 방식은 Aggregate Root를 아예 분리시키는 것입니다. 비대한 객체는 복잡도가 높습니다. 책임지는 영역도 넓습니다. 작은 객체 여럿은 서로간의 Integration이 어렵지만, 작게 유지시키는 것은 큰 가치가 있는 일입니다.&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-java" data-lang="java">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#a6e22e">@AggregateRoot&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">public&lt;/span> &lt;span style="color:#66d9ef">class&lt;/span> &lt;span style="color:#a6e22e">User&lt;/span> {}
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#a6e22e">@AggregateRoot&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">public&lt;/span> &lt;span style="color:#66d9ef">class&lt;/span> &lt;span style="color:#a6e22e">Auth&lt;/span> {}
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#a6e22e">@AggregateRoot&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">public&lt;/span> &lt;span style="color:#66d9ef">class&lt;/span> &lt;span style="color:#a6e22e">Information&lt;/span> {}
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>생명 주기를 공유하지 않는 선에서, 더 작게, 더 짧게 객체를 나누어 보세요. 물론, 이 방식은 필연적으로 서로간의 Integration을 요구한다는 점에서 구현에 신경쓸 부분이 많습니다. 그러나, 더 작은 객체는 사용하기 편합니다. 이해하기 쉽습니다. 여러분이 비대한 객체를 테스트한다 생각해보세요. 대부분, 하나의 객체가 많은 협력 관계나 필드가 많을 때 우리는 테스트에 어려움을 겪습니다. 이것을 개발 당시에 신경쓰지 않는 이유는 많은 경우 Spring IoC Container 따위를 통해 객체의 생성과 관리 책임을 위임하기 때문입니다. 이는 무척 멋진 기능이나, 이로 인해 초기화가 어려운 객체가 탄생해버립니다.&lt;/p>
+&lt;p>그 모든 것들을 없애버리고, 맑은 시야에서 객체를 바라보자면, 복잡하고 책임이 많은 객체가 왜 좋지 않은지 알 수 있습니다. 특히, 영속화가 이루어지는 이러한 객체들은 더 복잡한 문제가 숨어 있습니다. 우리는 큰 객체를 다루면서, 데이터베이스의 최적화까지 고려해야 하는 운명에 마주합니다.&lt;/p>
+&lt;h5 id="더-작게-때로는-기교를-부려가며">더 작게, 때로는 기교를 부려가며&lt;/h5>
+&lt;p>&lt;code>@Inheritance&lt;/code> 어노테이션이나 &lt;code>@MappedSuperclass&lt;/code> 는 객체의 상속을 통해 객체지향적 관점에서 Application과 Domain을 설계할 수 있도록 도와줍니다. 서로 조금은 다른 Annotation이긴 하지만 일부 비슷한 구현이 있기에, &lt;code>Inheritance&lt;/code> 를 기준으로 설명드리겠습니다.&lt;/p>
+&lt;p>외부에서 우리가 &lt;code>User&lt;/code> 를 바라볼 때 어떠한 관점에서 바라봅니까? 예를 들면, 여러분이 만약 서비스A의 사용자라 가정해봅시다. 서비스A는 커머스의 회원 시스템이며, 여러분은 이 회원 시스템에 로그인 후 자신의 이름, 생년월일등을 변경할 수 있습니다. 그런데, 여러분에게 이메일을 변경할 권한이 없다 가정해봅시다.&lt;/p>
+&lt;p>그러나 대부분, 관리자는 이러한 기능을 제공하고 있습니다. 서로 같은 객체를 바라보나, 서로 상이한 비즈니스 로직이 포함되어 있다는 것입니다. 이러한 불일치는 현실 세계의 Application에서 익히 발생하는 매우 보편적인 문제입니다. 여러분의 Application이 작다면, 이러한 일은 큰 문제가 아닙니다. Aggregate Root 혼자 이 모든 로직을 담당해도 충분히 작고, 미치는 여파는 미미합니다. 그러나 대규모의, Aggregate Root가 &amp;ldquo;어쩔 도리 없이&amp;rdquo; 비대한 경우는 분명 존재합니다. 의도하였든, 의도하지 않았든 이러한 코드는 마주할 수 밖에 없습니다. 왜냐하면, 객체의 확장 가능성을 열어둔 시점에서 여러분은 미래 어느 시점에 이 객체의 &amp;ldquo;코드 레벨의 포화도&amp;quot;가 올라간다는 믿음이 있는 것이기 때문입니다. 아니라면, 여러분은 객체를 처음 구성한 그 순간 이미 완성되었음을 가정하고 &amp;ldquo;여기는 더 이상 수정하지 않아요!&amp;ldquo;따위의 말을 했겠죠.&lt;/p>
+&lt;p>다행스럽게도, 객체 지향적 관점에서 상속은 많은 것을 해결해 줄 수 있습니다. 적어도 이 문제에서는, 상속 관계가 가지는 강한 의존성이 오히려 감사할 지경입니다.&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-java" data-lang="java">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#a6e22e">@AggregateRoot&lt;/span>()
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#a6e22e">@Inheritance&lt;/span>(strategy &lt;span style="color:#f92672">=&lt;/span> strategy &lt;span style="color:#f92672">=&lt;/span> InheritanceType.&lt;span style="color:#a6e22e">JOINED&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#a6e22e">@DiscriminatorColumn&lt;/span>()
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#a6e22e">@Getter&lt;/span>(access &lt;span style="color:#f92672">=&lt;/span> AccessType.&lt;span style="color:#a6e22e">PUBLIC&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">class&lt;/span> &lt;span style="color:#a6e22e">User&lt;/span> { &lt;span style="color:#75715e">// 객체의 접근을 제한한다.&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">@Id&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">protected&lt;/span> UserId id;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#a6e22e">@Entity&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">public&lt;/span> &lt;span style="color:#66d9ef">class&lt;/span> &lt;span style="color:#a6e22e">AdminUser&lt;/span> &lt;span style="color:#66d9ef">extends&lt;/span> User { &lt;span style="color:#75715e">// 관리자가 제어하는 유저&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">public&lt;/span> &lt;span style="color:#66d9ef">void&lt;/span> &lt;span style="color:#a6e22e">removeInformation&lt;/span>() {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#75715e">// Do something..&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="결국은-작게-쪼개야-한다">결국은 작게 쪼개야 한다&lt;/h2>
+&lt;p>Aggregate Root의 복잡도는 필연적인 요소입니다. 복잡도를 측정하는 정량적 수치 &lt;em>(Cyclomatic Complexity 따위와 같은)&lt;/em> 가 &amp;ldquo;돌아올 수 없는 선&amp;quot;에 해당하는 역치를 만났을 때 우리는 이러한 설계의 개선을 추진해야 하는 나름의 의무를 지니고 있습니다. 이러한 복잡도 증가는 도메인 주도 설계가 지향하는, Aggregate Root를 통한 접근, 비즈니스 로직의 은닉화와 파편화의 제한에 해당하는 것을 우리가 현실의 복잡한 문제를 풀어내고자 할 때 발생하는 것이기에 언제나, 설령 작디 작은 서비스를 만드는 상황에도 발생합니다.&lt;/p>
+&lt;p>복잡도를 풀어내는 많은 방법이 있습니다. Domain Event(Transaction Boundary는 다르지만 같은 Application에서 동작하도록)따위를 사용하거나, 그냥 &amp;ldquo;큰 객체&amp;quot;로 유지하는 방법도 좋은 방안이긴 합니다. 여러분의 복잡도를 잘 살펴보세요.&lt;/p>
+&lt;p>작게 쪼개는 것은 어려운 일입니다. Tx Boundary 를 분리한다는 것은, Eventual consistency를 요구하는 Application을 설계한다는 것입니다. 전통적이고, 보수적이고, 안정적인 RDBMS의 Tx를 사용하지 않을 정도의 가치가 있는 작업이라면, 진행하세요.&lt;/p></content></item></channel></rss>
