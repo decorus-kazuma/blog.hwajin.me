@@ -156,3 +156,11 @@ paginate = 20
       [markup.goldmark.extensions.passthrough]
         [markup.goldmark.extensions.passthrough.delimiters]
           block = [['\[', '\]'], ['$$', '$$']]
+
+[module]
+  # In case you would like to make changes to the theme and keep it locally in you repository,
+  # uncomment the line below (and correct the local path if necessary).
+  # --
+  replacements = "github.com/hwajin-me/hugo-theme-terminal -> themes/terminal"
+[[module.imports]]
+  path = "terminal"
