@@ -4,6 +4,7 @@ date = "2022-04-04T23:18:00+09:00"
 author = "Hwajin Lee"
 tags = ["algorithm"]
 description = "Given a linked list, swap every two adjacent nodes and return its head. You must solve the problem without modifying the values in the list's nodes (i.e., only nodes themselves may be changed.)"
+keywords = ["algorithm","leetcode"]
 +++
 
 Given a linked list, swap every two adjacent nodes and return its head. You must solve the problem without modifying the values in the list's nodes (i.e., only nodes themselves may be changed.) 

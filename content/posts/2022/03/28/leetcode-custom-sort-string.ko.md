@@ -4,6 +4,7 @@ date = "2022-03-28T21:44:00+09:00"
 author = "Hwajin Lee"
 tags = ["algorithm"]
 description = "You are given two strings order and s. All the words of `order` are **unique** and were sorted in some custom order previously."
+keywords = ["algorithm","leetcode"]
 +++
 
 Permute the characters of `s` so that they match the order that `order` was sorted. More specifically, if a character `x` occurs before a character `y` in `order`, then `x` should occur before `y` in the permuted string.

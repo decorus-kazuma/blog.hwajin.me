@@ -4,6 +4,7 @@ date = "2022-04-05T23:41:00+09:00"
 author = "Hwajin Lee"
 tags = ["algorithm"]
 description = "You are given an array of **unique** integers `salary` where `salary[i]` is the salary of the `ith`employee."
+keywords = ["algorithm","leetcode"]
 +++
 
 You are given an array of **unique** integers `salary` where `salary[i]` is the salary of the `ith`employee.

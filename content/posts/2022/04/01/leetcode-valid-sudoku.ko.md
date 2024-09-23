@@ -4,6 +4,7 @@ date = "2022-04-01T15:58:00+09:00"
 author = "Hwajin Lee"
 tags = ["algorithm"]
 description = "Determine if a 9 x 9 Sudoku board is valid. Only the filled cells need to be validated according to the following rules:"
+keywords = ["algorithm","leetcode"]
 +++
 
 Determine if a 9 x 9 Sudoku board is valid. Only the filled cells need to be validated according to the following rules:

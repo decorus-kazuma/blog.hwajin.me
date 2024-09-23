@@ -4,6 +4,7 @@ date = "2022-04-06T23:29:00+09:00"
 author = "Hwajin Lee"
 tags = ["algorithm"]
 description = "Given an array of `intervals` where `intervals[i] = [starti, endi]`, merge all overlapping intervals, and return *an array of the non-overlapping intervals that cover all the intervals in the input*."
+keywords = ["algorithm","leetcode"]
 +++
 
 Given an array of `intervals` where `intervals[i] = [starti, endi]`, merge all overlapping intervals, and return *an array of the non-overlapping intervals that cover all the intervals in the input*.

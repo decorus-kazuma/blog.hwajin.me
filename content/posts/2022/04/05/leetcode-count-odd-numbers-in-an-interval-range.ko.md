@@ -4,6 +4,7 @@ date = "2022-04-05T23:41:00+09:00"
 author = "Hwajin Lee"
 tags = ["algorithm"]
 description = "Given two non-negative integers `low` and `high`. Return the *count of odd numbers between* `low` *and* `high` *(inclusive)*."
+keywords = ["algorithm","leetcode"]
 +++
 
 Given two non-negative integers `low` and `high`. Return the *count of odd numbers between* `low` *and* `high` *(inclusive)*.

@@ -4,6 +4,7 @@ date = "2024-01-10 00:52:00"
 author = "Hwajin Lee"
 tags = ["algorithm"]
 description = "Given an integer array nums and an integer k, return the kth largest element in the array."
+keywords = ["algorithm","leetcode"]
 +++
 
 ## Problem,

@@ -4,6 +4,7 @@ date = "2022-03-31T20:41:00+09:00"
 author = "Hwajin Lee"
 tags = ["algorithm"]
 description = "You are given a rectangular cake of size h x w and two arrays of integers horizontalCuts and verticalCuts where"
+keywords = ["algorithm","leetcode"]
 +++
 
 You are given a rectangular cake of size h x w and two arrays of integers horizontalCuts and verticalCuts where:

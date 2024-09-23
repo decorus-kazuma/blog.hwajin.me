@@ -4,6 +4,7 @@ date = "2022-04-29 01:31:12"
 author = "Hwajin Lee"
 tags = ["algorithm"]
 description = "Given an array, rotate the array to the right by `k` steps, where `k` is non-negative."
+keywords = ["algorithm","leetcode"]
 +++
 
 ## Problem,

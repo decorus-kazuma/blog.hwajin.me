@@ -4,6 +4,7 @@ date = "2022-04-06T21:46:00+09:00"
 author = "Hwajin Lee"
 tags = ["algorithm"]
 description = "You are given an array of strings `arr`. A string `s` is formed by the **concatenation** of a **subsequence** of `arr` that has **unique characters**."
+keywords = ["algorithm","leetcode"]
 +++
 
 You are given an array of strings `arr`. A string `s` is formed by the **concatenation** of a **subsequence** of `arr` that has **unique characters**.
