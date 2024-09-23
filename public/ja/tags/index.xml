@@ -17,5 +17,25 @@
       <content></content>
     </item>
     
+    <item>
+      <title>Development</title>
+      <link>http://localhost:1313/ja/tags/development/</link>
+      <pubDate>Wed, 04 Jul 2018 15:00:00 +0000</pubDate>
+      
+      <guid>http://localhost:1313/ja/tags/development/</guid>
+      <description></description>
+      <content></content>
+    </item>
+    
+    <item>
+      <title>Laravel</title>
+      <link>http://localhost:1313/ja/tags/laravel/</link>
+      <pubDate>Wed, 04 Jul 2018 15:00:00 +0000</pubDate>
+      
+      <guid>http://localhost:1313/ja/tags/laravel/</guid>
+      <description></description>
+      <content></content>
+    </item>
+    
   </channel>
 </rss>

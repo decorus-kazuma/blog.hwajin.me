@@ -7,7 +7,7 @@
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="description" content="Laravel Framework 의 근간인 Dependency Injection 을 담당하는 IoC Container 를 살펴봅니다." />
-<meta name="keywords" content="Software Engineering,Develop,Backend Engineer" />
+<meta name="keywords" content="laravel" />
 
   <meta name="robots" content="noodp" />
 
@@ -59,7 +59,7 @@
   <link rel="stylesheet" href="http://localhost:1313/css/pagination.min.82f6400eae7c7c6dc3c866733c2ec0579e4089608fea69400ff85b3880aa0d3c.css">
 
   
-  <link rel="stylesheet" href="http://localhost:1313/css/post.min.25766289beb338158260d7de80c8c351540f44f09a784d5f19607d62d61bd241.css">
+  <link rel="stylesheet" href="http://localhost:1313/css/post.min.07d117057864c1a2d5d5122a682b0c2639622bef11dd9ae1d144f7acfef1eed7.css">
 
   
   <link rel="stylesheet" href="http://localhost:1313/css/prism.min.ca6800ca3dc6b21843a1efbd3f4d2dc4346b440a7455693432ba4775135292a1.css">
@@ -96,7 +96,7 @@
 
   
   
-  <meta property="og:image" content="https://private-user-images.githubusercontent.com/8151366/369705124-c6c4d0f1-940f-43c1-85e2-abf278445276.png?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTUiLCJleHAiOjE3MjcwMjUzMTYsIm5iZiI6MTcyNzAyNTAxNiwicGF0aCI6Ii84MTUxMzY2LzM2OTcwNTEyNC1jNmM0ZDBmMS05NDBmLTQzYzEtODVlMi1hYmYyNzg0NDUyNzYucG5nP1gtQW16LUFsZ29yaXRobT1BV1M0LUhNQUMtU0hBMjU2JlgtQW16LUNyZWRlbnRpYWw9QUtJQVZDT0RZTFNBNTNQUUs0WkElMkYyMDI0MDkyMiUyRnVzLWVhc3QtMSUyRnMzJTJGYXdzNF9yZXF1ZXN0JlgtQW16LURhdGU9MjAyNDA5MjJUMTcxMDE2WiZYLUFtei1FeHBpcmVzPTMwMCZYLUFtei1TaWduYXR1cmU9ZDI0MjZkZmI4MjlhOTliY2Q5ZTczNGU3MzgxZWZjZjIxZDM3MWY0NmY5Y2EwMjc0ZDllOWUwMmI5Y2E1MGNmYyZYLUFtei1TaWduZWRIZWFkZXJzPWhvc3QifQ.uM1QZPLqXs1MYDo2CP2i1C4b0EifBXeC-lrpRnAfrr0">
+  <meta property="og:image" content="https://github.com/user-attachments/assets/237e5002-7845-4618-ac13-a7ca58079792">
 
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="627">
@@ -213,17 +213,21 @@
   <h1 class="post-title">
     <a href="http://localhost:1313/ko/posts/2018/07/04/laravel-dependency-injection-container/">라라벨의 의존성 주입 컨테이너</a>
   </h1>
-  <div class="post-meta"><time class="post-date">2018-07-04</time><span class="post-author">Hwajin Lee</span><span class="post-reading-time">11 min read (2290 words)</span></div>
-
+  <div class="post-meta"><time class="post-date">2018-07-04</time><span class="post-author">Hwajin Lee</span><span class="post-reading-time">11 min read (2290 words)</span>
+        <a href="/ja/posts/2018/07/04/laravel-dependency-injection-container/">🇯🇵 Japanese</a>
+      </div>
+  
   
     <span class="post-tags">
       
       #<a href="http://localhost:1313/ko/tags/development/">development</a>&nbsp;
       
+      #<a href="http://localhost:1313/ko/tags/laravel/">laravel</a>&nbsp;
+      
     </span>
   
   
-  <img src="https://private-user-images.githubusercontent.com/8151366/369705124-c6c4d0f1-940f-43c1-85e2-abf278445276.png?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTUiLCJleHAiOjE3MjcwMjUzMTYsIm5iZiI6MTcyNzAyNTAxNiwicGF0aCI6Ii84MTUxMzY2LzM2OTcwNTEyNC1jNmM0ZDBmMS05NDBmLTQzYzEtODVlMi1hYmYyNzg0NDUyNzYucG5nP1gtQW16LUFsZ29yaXRobT1BV1M0LUhNQUMtU0hBMjU2JlgtQW16LUNyZWRlbnRpYWw9QUtJQVZDT0RZTFNBNTNQUUs0WkElMkYyMDI0MDkyMiUyRnVzLWVhc3QtMSUyRnMzJTJGYXdzNF9yZXF1ZXN0JlgtQW16LURhdGU9MjAyNDA5MjJUMTcxMDE2WiZYLUFtei1FeHBpcmVzPTMwMCZYLUFtei1TaWduYXR1cmU9ZDI0MjZkZmI4MjlhOTliY2Q5ZTczNGU3MzgxZWZjZjIxZDM3MWY0NmY5Y2EwMjc0ZDllOWUwMmI5Y2E1MGNmYyZYLUFtei1TaWduZWRIZWFkZXJzPWhvc3QifQ.uM1QZPLqXs1MYDo2CP2i1C4b0EifBXeC-lrpRnAfrr0"
+  <img src="https://github.com/user-attachments/assets/237e5002-7845-4618-ac13-a7ca58079792"
     class="post-cover"
     alt="라라벨의 의존성 주입 컨테이너"
     title="Cover Image" />
@@ -802,9 +806,9 @@
   
 
   
-    <div class="pagination">
-   <div class="pagination__title">
-     <span class="pagination__title-h">COMMENTS</span>
+    <div class="comment">
+   <div class="comment__title">
+     <span class="comment__title-h">COMMENTS</span>
      <hr />
    </div>
   </div>

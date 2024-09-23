@@ -77,6 +77,45 @@
                 href="http://localhost:1313/ja/tags/"
                 />
   </url><url>
+    <loc>http://localhost:1313/ja/tags/development/</loc>
+    <lastmod>2018-07-04T15:00:00+00:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="ko"
+                href="http://localhost:1313/ko/tags/development/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="ja"
+                href="http://localhost:1313/ja/tags/development/"
+                />
+  </url><url>
+    <loc>http://localhost:1313/ja/tags/laravel/</loc>
+    <lastmod>2018-07-04T15:00:00+00:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="ko"
+                href="http://localhost:1313/ko/tags/laravel/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="ja"
+                href="http://localhost:1313/ja/tags/laravel/"
+                />
+  </url><url>
+    <loc>http://localhost:1313/ja/posts/2018/07/04/laravel-dependency-injection-container/</loc>
+    <lastmod>2018-07-04T15:00:00+00:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="ko"
+                href="http://localhost:1313/ko/posts/2018/07/04/laravel-dependency-injection-container/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="ja"
+                href="http://localhost:1313/ja/posts/2018/07/04/laravel-dependency-injection-container/"
+                />
+  </url><url>
     <loc>http://localhost:1313/ja/categories/</loc>
     <xhtml:link
                 rel="alternate"
