@@ -1,8 +1,7 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Hwajin's Blog</title><link>https://blog.hwajin.me/</link><description>Recent content on Hwajin's Blog</description><generator>Hugo -- gohugo.io</generator><language>en</language><lastBuildDate>Mon, 23 Sep 2024 00:00:00 +0000</lastBuildDate><atom:link href="https://blog.hwajin.me/index.xml" rel="self" type="application/rss+xml"/><item><title>About</title><link>https://blog.hwajin.me/about/</link><pubDate>Mon, 23 Sep 2024 00:00:00 +0000</pubDate><guid>https://blog.hwajin.me/about/</guid><description>&lt;h1 id="i-want-to-change-the-world-through-my-code-">I want to change the world. through my code. 🚀&lt;/h1>
-&lt;p>&lt;em>韓国で生まれ、日本に住んでからまた韓国に戻ってきました。ふつつか者ですがよろしくお願いします。&lt;/em>&lt;/p>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Hwajin's Blog</title><link>https://blog.hwajin.me/</link><description>Recent content on Hwajin's Blog</description><generator>Hugo -- gohugo.io</generator><language>en</language><lastBuildDate>Mon, 23 Sep 2024 00:00:00 +0000</lastBuildDate><atom:link href="https://blog.hwajin.me/index.xml" rel="self" type="application/rss+xml"/><item><title>About</title><link>https://blog.hwajin.me/about/</link><pubDate>Mon, 23 Sep 2024 00:00:00 +0000</pubDate><guid>https://blog.hwajin.me/about/</guid><description>&lt;h2 id="i-want-to-change-the-world-through-my-code-">&lt;strong>I want to change the world. through my code.&lt;/strong> 🚀&lt;/h2>
 &lt;p>&lt;a href="https://leetcode.com/hwajin-me/">&lt;img alt="LeetCode user hwajin-me" src="https://img.shields.io/badge/dynamic/json?style=for-the-badge&amp;labelColor=black&amp;color=%23ffa116&amp;label=Solved&amp;query=solvedOverTotal&amp;url=https%3A%2F%2Fleetcode-badge.vercel.app%2Fapi%2Fusers%2Fhwajin-me&amp;logo=leetcode&amp;logoColor=yellow">&lt;/a>&lt;/p>
 &lt;h3 id="-contact-me">💁‍♂️ Contact me,&lt;/h3>
-&lt;p>&lt;a href="https://www.linkedin.com/in/hwajin-me">&lt;img alt="LinkedIn" src="https://img.shields.io/badge/linkedin-%230077B5.svg?style=for-the-badge&amp;logo=linkedin&amp;logoColor=white">&lt;/a> &lt;a href="mailto:brightdelusion@gmail.com">&lt;img alt="Gmail" src="https://img.shields.io/badge/Gmail-D14836?style=for-the-badge&amp;logo=gmail&amp;logoColor=white">&lt;/a>&lt;/p>
+&lt;p>&lt;a href="https://www.linkedin.com/in/hwajin-me">&lt;img alt="LinkedIn" src="https://img.shields.io/badge/linkedin-%230077B5.svg?style=for-the-badge&amp;logo=linkedin&amp;logoColor=white">&lt;/a> &lt;a href="mailto:brightdelusion@gmail.com">&lt;img alt="Gmail" src="https://img.shields.io/badge/Gmail-D14836?style=for-the-badge&amp;logo=gmail&amp;logoColor=white">&lt;/a> &lt;a href="https://blog.hwajin.me">&lt;img alt="BLOG.HWAJIN.ME" src="https://img.shields.io/badge/Blog-blog.hwajin.me-333333?logo=Bloglovin&amp;style=for-the-badge">&lt;/a> &lt;a href="https://www.instagram.com/kazuma.hwajin/">&lt;img alt="Instagram" src="https://img.shields.io/badge/Instagram-%23E4405F.svg?style=for-the-badge&amp;logo=Instagram&amp;logoColor=white">&lt;/a>&lt;/p>
 &lt;h4 id="-mobile">📱 Mobile&lt;/h4>
 &lt;blockquote>
 &lt;p>Currently I am working in Korea. Below are mobile phone numbers by country.&lt;/p>
@@ -27,13 +26,12 @@
 &lt;/table>
 &lt;h3 id="-projects">📱 Projects,&lt;/h3>
 &lt;ul>
-&lt;li>&lt;a href="https://github.com/decorus-kazuma/gptp-burningground">🎮 General Plugin Template Project for Burning Ground&lt;/a>
+&lt;li>&lt;a href="https://github.com/hwajin-me/gptp-burningground">🎮 General Plugin Template Project for Burning Ground&lt;/a>
 &lt;blockquote>
-&lt;p>Burning ground is a Starcraft 1 unofficial expansion pack. This project is the core package of starcraft and burning ground. In 2022(R4), This project is no longer to maintained because Blizzard chooses to change some core logic that we use for the hooking. And, this project cannot support bnet 2.0 because of its anti-cheat system. Check this &lt;a href="https://www.moddb.com/mods/burningground">https://www.moddb.com/mods/burningground&lt;/a>&lt;/p></description><content>&lt;h1 id="i-want-to-change-the-world-through-my-code-">I want to change the world. through my code. 🚀&lt;/h1>
-&lt;p>&lt;em>韓国で生まれ、日本に住んでからまた韓国に戻ってきました。ふつつか者ですがよろしくお願いします。&lt;/em>&lt;/p>
+&lt;p>Burning ground is a Starcraft 1 unofficial expansion pack. This project is the core package of starcraft and burning ground. In 2022(R4), This project is no longer to maintained because Blizzard chooses to change some core logic that we use for the hooking. And, this project cannot support bnet 2.0 because of its anti-cheat system. Check this &lt;a href="https://www.moddb.com/mods/burningground">https://www.moddb.com/mods/burningground&lt;/a>&lt;/p></description><content>&lt;h2 id="i-want-to-change-the-world-through-my-code-">&lt;strong>I want to change the world. through my code.&lt;/strong> 🚀&lt;/h2>
 &lt;p>&lt;a href="https://leetcode.com/hwajin-me/">&lt;img alt="LeetCode user hwajin-me" src="https://img.shields.io/badge/dynamic/json?style=for-the-badge&amp;labelColor=black&amp;color=%23ffa116&amp;label=Solved&amp;query=solvedOverTotal&amp;url=https%3A%2F%2Fleetcode-badge.vercel.app%2Fapi%2Fusers%2Fhwajin-me&amp;logo=leetcode&amp;logoColor=yellow">&lt;/a>&lt;/p>
 &lt;h3 id="-contact-me">💁‍♂️ Contact me,&lt;/h3>
-&lt;p>&lt;a href="https://www.linkedin.com/in/hwajin-me">&lt;img alt="LinkedIn" src="https://img.shields.io/badge/linkedin-%230077B5.svg?style=for-the-badge&amp;logo=linkedin&amp;logoColor=white">&lt;/a> &lt;a href="mailto:brightdelusion@gmail.com">&lt;img alt="Gmail" src="https://img.shields.io/badge/Gmail-D14836?style=for-the-badge&amp;logo=gmail&amp;logoColor=white">&lt;/a>&lt;/p>
+&lt;p>&lt;a href="https://www.linkedin.com/in/hwajin-me">&lt;img alt="LinkedIn" src="https://img.shields.io/badge/linkedin-%230077B5.svg?style=for-the-badge&amp;logo=linkedin&amp;logoColor=white">&lt;/a> &lt;a href="mailto:brightdelusion@gmail.com">&lt;img alt="Gmail" src="https://img.shields.io/badge/Gmail-D14836?style=for-the-badge&amp;logo=gmail&amp;logoColor=white">&lt;/a> &lt;a href="https://blog.hwajin.me">&lt;img alt="BLOG.HWAJIN.ME" src="https://img.shields.io/badge/Blog-blog.hwajin.me-333333?logo=Bloglovin&amp;style=for-the-badge">&lt;/a> &lt;a href="https://www.instagram.com/kazuma.hwajin/">&lt;img alt="Instagram" src="https://img.shields.io/badge/Instagram-%23E4405F.svg?style=for-the-badge&amp;logo=Instagram&amp;logoColor=white">&lt;/a>&lt;/p>
 &lt;h4 id="-mobile">📱 Mobile&lt;/h4>
 &lt;blockquote>
 &lt;p>Currently I am working in Korea. Below are mobile phone numbers by country.&lt;/p>
@@ -58,12 +56,12 @@
 &lt;/table>
 &lt;h3 id="-projects">📱 Projects,&lt;/h3>
 &lt;ul>
-&lt;li>&lt;a href="https://github.com/decorus-kazuma/gptp-burningground">🎮 General Plugin Template Project for Burning Ground&lt;/a>
+&lt;li>&lt;a href="https://github.com/hwajin-me/gptp-burningground">🎮 General Plugin Template Project for Burning Ground&lt;/a>
 &lt;blockquote>
 &lt;p>Burning ground is a Starcraft 1 unofficial expansion pack. This project is the core package of starcraft and burning ground. In 2022(R4), This project is no longer to maintained because Blizzard chooses to change some core logic that we use for the hooking. And, this project cannot support bnet 2.0 because of its anti-cheat system. Check this &lt;a href="https://www.moddb.com/mods/burningground">https://www.moddb.com/mods/burningground&lt;/a>&lt;/p>
 &lt;/blockquote>
 &lt;/li>
-&lt;li>&lt;a href="https://github.com/decorus-kazuma/mecurus">🀄️ Mecurus - Tenhou Plugin&lt;/a>
+&lt;li>&lt;a href="https://github.com/hwajin-me/mecurus">🀄️ Mecurus - Tenhou Plugin&lt;/a>
 &lt;blockquote>
 &lt;p>麻雀ゲーム「天鳳」のWindowsプラグインです。このプログラムを通じてAILogic、いくつかのゲームプレイに役立つことができます。&lt;/p>
 &lt;/blockquote>
