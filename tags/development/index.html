@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ja">
 <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
   
     <title>Development :: Hwajin&#39;s Blog</title>
@@ -87,7 +87,7 @@
 
 
 
-<meta property="og:locale" content="en" />
+<meta property="og:locale" content="ja" />
 <meta property="og:type" content="website" />
 <meta property="og:title" content="Development">
 <meta property="og:description" content="" />
@@ -152,15 +152,15 @@
         <hr />
         
           <li>
-            <a href="http://localhost:1313/">🇺🇸 English</a>
-          </li>
-        
-          <li>
-            <a href="http://localhost:1313/ja/">🇯🇵 Japanese</a>
-          </li>
-        
-          <li>
             <a href="http://localhost:1313/ko/">🇰🇷 Korean</a>
+          </li>
+        
+          <li>
+            <a href="http://localhost:1313/en/">🇺🇸 English</a>
+          </li>
+        
+          <li>
+            <a href="http://localhost:1313/">🇯🇵 Japanese</a>
           </li>
         
       
@@ -171,15 +171,15 @@
     
     
       <ul class="menu menu--desktop menu--language-selector">
-  <li class="menu__trigger">🇺🇸 English&nbsp;▾</li>
+  <li class="menu__trigger">🇯🇵 Japanese&nbsp;▾</li>
   <li>
     <ul class="menu__dropdown">
       
-        <li><a href="http://localhost:1313/">🇺🇸 English</a></li>
-      
-        <li><a href="http://localhost:1313/ja/">🇯🇵 Japanese</a></li>
-      
         <li><a href="http://localhost:1313/ko/">🇰🇷 Korean</a></li>
+      
+        <li><a href="http://localhost:1313/en/">🇺🇸 English</a></li>
+      
+        <li><a href="http://localhost:1313/">🇯🇵 Japanese</a></li>
       
     </ul>
   </li>
@@ -213,7 +213,43 @@
     
       <article class="post on-list">
         <h1 class="post-title">
-          <a href="http://localhost:1313/posts/2018/07/04/laravel-dependency-injection-container.ko-copy/">라라벨의 의존성 주입 컨테이너</a>
+          <a href="http://localhost:1313/posts/2022/05/06/design-and-management-of-aggregate-root-ddd/">ドメイン駆動設計のAggregate Rootを設計&amp;維持する方法論</a>
+        </h1>
+        <div class="post-meta"><time class="post-date">2022-05-06</time><span class="post-author">Hwajin Lee</span></div>
+
+        
+          <span class="post-tags">
+            
+            #<a href="http://localhost:1313/tags/development/">development</a>&nbsp;
+            
+            #<a href="http://localhost:1313/tags/idea/">idea</a>&nbsp;
+            
+            #<a href="http://localhost:1313/tags/ddd/">ddd</a>&nbsp;
+            
+            #<a href="http://localhost:1313/tags/domain-driven-design/">domain-driven-design</a>&nbsp;
+            
+          </span>
+        
+
+        
+
+
+        <div class="post-content">
+          
+            <p>Aggregate Rootは、ドメイン単位であり、現実世界を反映したエンティティです。静的なコードが動的な世界と結びつき、変化する瞬間を捉えることで、私たちは効果的なモデルを導き出すことができます。これは、サービスを開発する開発者にとって非常に重要な課題です。しかし、これらのドメインオブジェクトを正しく設計し、機能させるためには、事前に多くの準備が必要です。各要素を適切にAggregate Rootとして分割し、それらをどう関連づけるかが鍵となります。</p>
+          
+        </div>
+
+        
+          <div>
+            <a class="read-more button inline" href="/posts/2022/05/06/design-and-management-of-aggregate-root-ddd/">Read more</a>
+          </div>
+        
+      </article>
+    
+      <article class="post on-list">
+        <h1 class="post-title">
+          <a href="http://localhost:1313/posts/2018/07/04/laravel-dependency-injection-container/">ララベルの依存性注入(DI)コンテナ</a>
         </h1>
         <div class="post-meta"><time class="post-date">2018-07-04</time><span class="post-author">Hwajin Lee</span></div>
 
@@ -222,25 +258,29 @@
             
             #<a href="http://localhost:1313/tags/development/">development</a>&nbsp;
             
+            #<a href="http://localhost:1313/tags/laravel/">laravel</a>&nbsp;
+            
+            #<a href="http://localhost:1313/tags/%E3%83%A9%E3%83%A9%E3%83%99%E3%83%AB/">ララベル</a>&nbsp;
+            
           </span>
         
 
         
-  <img src="https://private-user-images.githubusercontent.com/8151366/369705124-c6c4d0f1-940f-43c1-85e2-abf278445276.png?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTUiLCJleHAiOjE3MjcwMjUzMTYsIm5iZiI6MTcyNzAyNTAxNiwicGF0aCI6Ii84MTUxMzY2LzM2OTcwNTEyNC1jNmM0ZDBmMS05NDBmLTQzYzEtODVlMi1hYmYyNzg0NDUyNzYucG5nP1gtQW16LUFsZ29yaXRobT1BV1M0LUhNQUMtU0hBMjU2JlgtQW16LUNyZWRlbnRpYWw9QUtJQVZDT0RZTFNBNTNQUUs0WkElMkYyMDI0MDkyMiUyRnVzLWVhc3QtMSUyRnMzJTJGYXdzNF9yZXF1ZXN0JlgtQW16LURhdGU9MjAyNDA5MjJUMTcxMDE2WiZYLUFtei1FeHBpcmVzPTMwMCZYLUFtei1TaWduYXR1cmU9ZDI0MjZkZmI4MjlhOTliY2Q5ZTczNGU3MzgxZWZjZjIxZDM3MWY0NmY5Y2EwMjc0ZDllOWUwMmI5Y2E1MGNmYyZYLUFtei1TaWduZWRIZWFkZXJzPWhvc3QifQ.uM1QZPLqXs1MYDo2CP2i1C4b0EifBXeC-lrpRnAfrr0"
+  <img src="https://github.com/user-attachments/assets/237e5002-7845-4618-ac13-a7ca58079792"
     class="post-cover"
-    alt="라라벨의 의존성 주입 컨테이너"
+    alt="ララベルの依存性注入(DI)コンテナ"
     title="Cover Image" />
 
 
         <div class="post-content">
           
-            <p>Laravel Framework 의 근간인 Dependency Injection 을 담당하는 IoC Container 를 살펴봅니다.</p>
+            <p>Laravelの根幹である依存性注入と、これを構成するIoC Containerを見てみましょう。</p>
           
         </div>
 
         
           <div>
-            <a class="read-more button inline" href="/posts/2018/07/04/laravel-dependency-injection-container.ko-copy/">Read more</a>
+            <a class="read-more button inline" href="/posts/2018/07/04/laravel-dependency-injection-container/">Read more</a>
           </div>
         
       </article>
