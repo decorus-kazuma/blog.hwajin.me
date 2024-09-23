@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+  
+    <title>ドメイン駆動設計のAggregate Rootを設計&amp;維持する方法論 :: Hwajin&#39;s Blog</title>
+  
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Aggregate Rootは、ドメイン単位であり、現実世界を反映したエンティティです。静的なコードが動的な世界と結びつき、変化する瞬間を捉えることで、私たちは効果的なモデルを導き出すことができます。これは、サービスを開発する開発者にとって非常に重要な課題です。しかし、これらのドメインオブジェクトを正しく設計し、機能させるためには、事前に多くの準備が必要です。各要素を適切にAggregate Rootとして分割し、それらをどう関連づけるかが鍵となります。" />
+<meta name="keywords" content="ドメイン駆動設計, 開発, DDD" />
+
+  <meta name="robots" content="noodp" />
+
+<link rel="canonical" href="http://localhost:1313/ja/posts/2022/05/06/design-and-management-of-aggregate-root-ddd/" />
+
+
+      <script async src="https://www.googletagmanager.com/gtag/js?id=G-LJWJ9LNV2L"></script>
+      <script>
+        var doNotTrack = false;
+        if ( false ) {
+          var dnt = (navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack);
+          var doNotTrack = (dnt == "1" || dnt == "yes");
+        }
+        if (!doNotTrack) {
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'G-LJWJ9LNV2L');
+        }
+      </script>
+
+
+
+  
+  <link rel="stylesheet" href="http://localhost:1313/css/buttons.min.59dc4f2d2a85e5583335a503eafe389c3a2214114a6ae46d2d35f08a1277abcc.css">
+
+  
+  <link rel="stylesheet" href="http://localhost:1313/css/code.min.00125962708925857e7b66dbc58391d55be1191a3d0ce2034de8c9cd2c481c36.css">
+
+  
+  <link rel="stylesheet" href="http://localhost:1313/css/fonts.min.90c955c31dd7c0e05aae3d4f583d4d8a2af799d69c961337eaf2a825063a55dd.css">
+
+  
+  <link rel="stylesheet" href="http://localhost:1313/css/footer.min.bcfa5020d45c21f5afeedb4b6bf62e24324dbcd1aacf4dd9e43cf9d9ee3c7b5e.css">
+
+  
+  <link rel="stylesheet" href="http://localhost:1313/css/gist.min.a751e8b0abe1ba8bc53ced52a38b19d8950fe78ca29454ea8c2595cf26aad5c0.css">
+
+  
+  <link rel="stylesheet" href="http://localhost:1313/css/header.min.3ef6e703277b9dcc3fc86696911056f11198257c1b87986052e84d529386f740.css">
+
+  
+  <link rel="stylesheet" href="http://localhost:1313/css/main.min.18ffdec748d6bc5c603406ee515068bc2b15922f41fb64a2a5c2fe2551276bf8.css">
+
+  
+  <link rel="stylesheet" href="http://localhost:1313/css/menu.min.33e84c2923befc8a99f25a35d3b7d46e75fc2a1fd84c059465d61fb39c7b1551.css">
+
+  
+  <link rel="stylesheet" href="http://localhost:1313/css/pagination.min.82f6400eae7c7c6dc3c866733c2ec0579e4089608fea69400ff85b3880aa0d3c.css">
+
+  
+  <link rel="stylesheet" href="http://localhost:1313/css/post.min.6c581db9684943a277130aac4d81ec810b4e7059354cf165dfb3b49897452440.css">
+
+  
+  <link rel="stylesheet" href="http://localhost:1313/css/prism.min.ca6800ca3dc6b21843a1efbd3f4d2dc4346b440a7455693432ba4775135292a1.css">
+
+  
+  <link rel="stylesheet" href="http://localhost:1313/css/syntax.min.962669087b6f54db2dc27d75f1740fba3b9a2d59a5b5fbc2462361f02a37496c.css">
+
+  
+  <link rel="stylesheet" href="http://localhost:1313/css/terminal.min.b5044bd5f9e1cd572bab8eba76fe81b84e8d388d0d4d2f19c0f7dde675815ac6.css">
+
+  
+  <link rel="stylesheet" href="http://localhost:1313/css/terms.min.b81791663c3790e738e571cdbf802312390d30e4b1d8dc9d814a5b5454d0ac11.css">
+
+
+
+
+
+
+
+<link rel="shortcut icon" href="http://localhost:1313/favicon.png">
+<link rel="apple-touch-icon" href="http://localhost:1313/apple-touch-icon.png">
+
+
+<meta name="twitter:card" content="summary" />
+
+
+
+<meta property="og:locale" content="ja" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="ドメイン駆動設計のAggregate Rootを設計&amp;維持する方法論">
+<meta property="og:description" content="Aggregate Rootは、ドメイン単位であり、現実世界を反映したエンティティです。静的なコードが動的な世界と結びつき、変化する瞬間を捉えることで、私たちは効果的なモデルを導き出すことができます。これは、サービスを開発する開発者にとって非常に重要な課題です。しかし、これらのドメインオブジェクトを正しく設計し、機能させるためには、事前に多くの準備が必要です。各要素を適切にAggregate Rootとして分割し、それらをどう関連づけるかが鍵となります。" />
+<meta property="og:url" content="http://localhost:1313/ja/posts/2022/05/06/design-and-management-of-aggregate-root-ddd/" />
+<meta property="og:site_name" content="Hwajin&#39;s Blog" />
+
+  <meta property="og:image" content="http://localhost:1313/og-image.png">
+
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="627">
+
+
+  <meta property="article:published_time" content="2022-05-06 00:35:00 &#43;0900 JST" />
+
+
+
+
+
+
+
+
+
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+<script>
+  MathJax = {
+    tex: {
+      displayMath: [['\\[', '\\]'], ['$$', '$$']],  
+      inlineMath: [['\\(', '\\)']]                  
+    }
+  };
+</script>
+<meta name="naver-site-verification" content="04189f3919dcbb9325a69d0fa37208e850615030" />
+
+
+</head>
+<body>
+
+
+<div class="container">
+
+  <header class="header">
+  <div class="header__inner">
+    <div class="header__logo">
+      <a href="/">
+  <div class="logo">
+    Hwajin&#39;s Blog
+  </div>
+</a>
+
+    </div>
+    
+      <ul class="menu menu--mobile">
+  <li class="menu__trigger">Menu&nbsp;▾</li>
+  <li>
+    <ul class="menu__dropdown">
+      
+        
+          <li><a href="/ja/about">About</a></li>
+        
+      
+        
+          <li><a href="https://github.com/hwajin-me">Github</a></li>
+        
+      
+        
+          <li><a href="https://www.linkedin.com/in/hwajin-me/">Linkedin</a></li>
+        
+      
+      
+        <hr />
+        
+          <li>
+            <a href="http://localhost:1313/ja/">🇯🇵 Japanese</a>
+          </li>
+        
+          <li>
+            <a href="http://localhost:1313/ko/">🇰🇷 Korean</a>
+          </li>
+        
+          <li>
+            <a href="http://localhost:1313/en/">🇺🇸 English</a>
+          </li>
+        
+      
+    </ul>
+  </li>
+</ul>
+
+    
+    
+      <ul class="menu menu--desktop menu--language-selector">
+  <li class="menu__trigger">🇯🇵 Japanese&nbsp;▾</li>
+  <li>
+    <ul class="menu__dropdown">
+      
+        <li><a href="http://localhost:1313/ja/">🇯🇵 Japanese</a></li>
+      
+        <li><a href="http://localhost:1313/ko/">🇰🇷 Korean</a></li>
+      
+        <li><a href="http://localhost:1313/en/">🇺🇸 English</a></li>
+      
+    </ul>
+  </li>
+</ul>
+
+    
+  </div>
+  
+    <nav class="navigation-menu">
+  <ul class="navigation-menu__inner menu--desktop">
+    
+      
+        
+          <li><a href="/ja/about" >About</a></li>
+        
+      
+        
+          <li><a href="https://github.com/hwajin-me" >Github</a></li>
+        
+      
+        
+          <li><a href="https://www.linkedin.com/in/hwajin-me/" >Linkedin</a></li>
+        
+      
+      
+    
+  </ul>
+</nav>
+
+  
+</header>
+
+
+  <div class="content">
+    
+<article class="post">
+  <h1 class="post-title">
+    <a href="http://localhost:1313/ja/posts/2022/05/06/design-and-management-of-aggregate-root-ddd/">ドメイン駆動設計のAggregate Rootを設計&amp;維持する方法論</a>
+  </h1>
+  <div class="post-meta"><time class="post-date">2022-05-06</time><span class="post-author">Hwajin Lee</span><span class="post-reading-time">1 min read (197 words)</span>
+        <a href="/ko/posts/2022/05/06/design-and-management-of-aggregate-root-ddd/">🇰🇷 Korean</a>
+      </div>
+  
+  
+    <span class="post-tags">
+      
+      #<a href="http://localhost:1313/ja/tags/development/">development</a>&nbsp;
+      
+      #<a href="http://localhost:1313/ja/tags/idea/">idea</a>&nbsp;
+      
+      #<a href="http://localhost:1313/ja/tags/ddd/">ddd</a>&nbsp;
+      
+      #<a href="http://localhost:1313/ja/tags/domain-driven-design/">domain-driven-design</a>&nbsp;
+      
+    </span>
+  
+  
+
+
+  
+    <div class="post-description">
+      Aggregate Rootは、ドメイン単位であり、現実世界を反映したエンティティです。静的なコードが動的な世界と結びつき、変化する瞬間を捉えることで、私たちは効果的なモデルを導き出すことができます。これは、サービスを開発する開発者にとって非常に重要な課題です。しかし、これらのドメインオブジェクトを正しく設計し、機能させるためには、事前に多くの準備が必要です。各要素を適切にAggregate Rootとして分割し、それらをどう関連づけるかが鍵となります。
+    </div>
+    <div class="table-of-contents">
+      <h2>
+        Table of Contents
+      </h2>
+      <nav id="TableOfContents">
+  <ul>
+    <li><a href="#コードのライフサイクル">コードのライフサイクル</a></li>
+    <li><a href="#最小責任の原則">最小責任の原則</a></li>
+    <li><a href="#小さくなれない設計">小さくなれない設計</a>
+      <ul>
+        <li><a href="#肥大したaggregate-root">肥大したAggregate Root</a></li>
+        <li><a href="#domain-serviceオブジェクトへの分離">Domain Serviceオブジェクトへの分離</a></li>
+        <li><a href="#aggregate-rootを分離">Aggregate Rootを分離</a></li>
+      </ul>
+    </li>
+    <li><a href="#最小限のオブジェクト">最小限のオブジェクト</a></li>
+  </ul>
+</nav>
+    </div>
+  
+
+  <div class="post-content"><div>
+        <h2 id="コードのライフサイクル">コードのライフサイクル<a href="#コードのライフサイクル" class="hanchor" ariaLabel="Anchor">#</a> </h2>
+<p>コードもまた、さまざまな理由で生成と消滅を繰り返します。私たちは、コードに反映される現実がすでに過去のものであることを理解しています。これが静的なコードが持つ限界であり、しばしば「将来の変化に備えた設計」を行うことがあります。しかし、このアプローチは危険な結果を招く可能性があります。ビジネスの世界は急速に変化し、それに伴い私たちのコードも激しく変わり、進化していきます。コードはビジネスのライフサイクルと深い結びつきを持っているため、将来のための設計は、しばしば意図しない使われ方をしたり、そもそも使われる機会がないことも多いです。同じプロジェクトで、同じ企画者や開発者が作り出したサービスであっても同様です。そして、これらの要件の変化は決して異常なことでも、誤りでもありません。</p>
+<p>これらのライフサイクルを把握し、分析して、現時点のドメインに最適なオブジェクトを設計することが、私たちの目指す目標です。将来に備えるには、適切な責任を持つオブジェクトを設計し、拡張性の高いソフトウェアを構築すること、そして明細を分離し、抽象化する技術を活用することが重要です。レガシーと呼ばれる巨大なシステムは、単に「未来に使えそうな機能」を多く持たないからではなく、複雑に絡み合った依存関係と、修正が困難なほど巨大なコードベースに起因します。</p>
+<p>ご存知のとおり、コードのライフサイクルはビジネスの成長速度や方向性に大きな影響を受けます。したがって、私たちがコードやオブジェクトを設計する際に最も重視すべきは、これらのライフサイクルと強く結びつき、同じライフサイクルを共有するシステムを開発することです。この点が明確であれば、オブジェクトの凝集度や結合度にも自然と配慮でき、結果として適切な設計に繋がるのです。</p>
+<h2 id="最小責任の原則">最小責任の原則<a href="#最小責任の原則" class="hanchor" ariaLabel="Anchor">#</a> </h2>
+<p>　オブジェクトを設計する際、巨大なオブジェクトは必然的に問題を引き起こします。実際、オブジェクトが大きくなっている時点で、すでに設計上の問題があることを示しているのです。たとえば、注文を管理するAggregate Rootを設計する場合を考えてみましょう。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#a6e22e">@AggregateRoot</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Order</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// いろんな機能(order placed, etc..)</span>
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>注文を管理するAggregate Rootがどの範囲まで担当すべきかについて、明確な正解はありません。しかし、基本的には小さければ小さいほど良いです。Aggregate Rootや他のオブジェクトを設計する際の基本原則は、分割不可能な単位まで細かく分けて表現することです。Microservice architectureなどの流行りなシステムが、かえって複雑さを増してしまう理由の一つは、この基本原則を無視して開発されているからです。ドメイン駆動設計において、大きなAggregate Rootは多くの問題を引き起こします。たとえそれが論理的に見て「凝集度の高い」コードであったとしても、問題が生じることがあるのです。</p>
+<p>ドメインロジックはDomain Layerに存在すべきであり、各ドメインのAggregate Rootはそれらのロジックをすべて担います。この設計では、オブジェクトに過剰な責任を負わせたり、少ない責任に対して過剰な機能を追加したりすると、Aggregate Rootが管理できる範囲を超えてしまいます。</p>
+<p>もちろん、常に小さなオブジェクトを設計できるとは限りません。これは自然なことです。しかし、メソッド（Aggregate Rootの観点ではビジネスロジックの行動）は、オブジェクト同士の協調によって実現できます。このとき、ステートレスなオブジェクトであるDomain Serviceが、このような問題の解決策の一つとなるかもしれません。</p>
+<h2 id="小さくなれない設計">小さくなれない設計<a href="#小さくなれない設計" class="hanchor" ariaLabel="Anchor">#</a> </h2>
+<p>1つのAggregate Rootに対して複数のシステムが協調して動作することは、非常によくあることです。例えば、バッチ処理のようなケースでは、Aggregate Rootとして管理するのが難しく、そのようなアプローチは推奨されません。しかし、Administrator APIとUser APIが同じAggregate Rootを利用する場合は、複雑性が高くなることがあります。これに対する明確な正解はありませんが、私が通常提示する代替案は3つあります。</p>
+<ol>
+<li>肥大したAggregate Root</li>
+<li>Domain Serviceオブジェクトへの分離</li>
+<li>Aggregate Rootを分離。</li>
+</ol>
+<h3 id="肥大したaggregate-root">肥大したAggregate Root<a href="#肥大したaggregate-root" class="hanchor" ariaLabel="Anchor">#</a> </h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">User</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">delete</span>() {}
+</span></span><span style="display:flex;"><span>  	<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">addInformation</span>() {}
+</span></span><span style="display:flex;"><span>  	<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">removeInformation</span>() {}
+</span></span><span style="display:flex;"><span>  	<span style="color:#75715e">// ...and</span>
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>この方法は非常に一般的です。デメリットとして、行為（メソッド）が多くなることがありますが、オブジェクトが自身の行為を公開することで得られるメリットは非常に大きいと考えています。例を挙げてみましょう。良いコードとは、コード自体が行為と結果を表現できるものであり、詩や文章のように読み、他の開発者が事前に特別な知識を持たなくても理解できるようなものです。</p>
+<p>例えば、上記のコードでは「public」を使ってこの行為を外部に公開しています。これは、その行為が外部から利用でき、また利用されるべきものであることを意味します。また、「void」を使って、私たちはこの行為がいかなる追加の情報も返さないことを示しています。そして、行為の名前がその目的を明確に伝えています。</p>
+<p>私が提案する3つの方法はどれも、Aggregate Rootにメソッドを追加する必要があるという点では共通していますが、この方法を別途紹介する理由は、Aggregate Rootにあるロジックを直接呼び出すという点で、他の2つの方法とは少し異なるからです。</p>
+<h3 id="domain-serviceオブジェクトへの分離">Domain Serviceオブジェクトへの分離<a href="#domain-serviceオブジェクトへの分離" class="hanchor" ariaLabel="Anchor">#</a> </h3>
+<p>Domain Serviceは、非常に特殊な用途のサービスオブジェクトです。 自ら状態を管理せず、「Aggregate Root」を外部から注入を受けて使用します。 まるでState machine patternと類似して動作します。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#a6e22e">@Service</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">UserManagementService</span> {
+</span></span><span style="display:flex;"><span>  	<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">removeInformation</span>(<span style="color:#a6e22e">@Nonnull</span> User user) {
+</span></span><span style="display:flex;"><span>        user.<span style="color:#a6e22e">removeInformation</span>();
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#a6e22e">@AggregateRoot</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">User</span> {
+</span></span><span style="display:flex;"><span>     <span style="color:#66d9ef">private</span> Information information;
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>     <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">removeInformation</span>() {
+</span></span><span style="display:flex;"><span>         <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">information</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">null</span>;
+</span></span><span style="display:flex;"><span>     }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>この方法を使う理由について説明します。例えば、皆さんが複雑なオブジェクトを設計していると仮定します。多くの場合、APIは管理用のAPIと一般ユーザー向けのAPIの2つを持っており、これらが混在して使用される可能性が高いです。このような状況では、特定の行為の呼び出しを明示的に制限する必要が生じることがあります。</p>
+<p>ビジネスロジックの呼び出しはApplication Layerが担当し、呼び出しの正当性（この操作が実行可能かどうか）を検証するのが望ましいです。しかし、ドメインロジックからこれを切り離す必要があるケースは現実的に頻繁に発生します。そのような場合、User Aggregate Rootの行為を隠蔽し、その呼び出しを「User Management Service」に委ねることができます。このような設計では、行為の利用者（呼び出し元）が、行為を呼び出す時点で必要な情報をある程度把握できるため、効果的な方法だと言えます。もしこれを強く制限したい場合は、ArchUnitなどのアーキテクチャテストを導入することをお勧めします。</p>
+<p>ただし、この方法にも欠点があります。それは、すべての作業が「User Aggregate Root」を扱う際には見えにくいという点です。結果として、1つの行為に対して2回の修正が必要になることが避けられません。これは良いパターンなのでしょうか？それは状況によりますが、合理的な選択肢の一つであることは確かです。</p>
+<h3 id="aggregate-rootを分離">Aggregate Rootを分離<a href="#aggregate-rootを分離" class="hanchor" ariaLabel="Anchor">#</a> </h3>
+<p>まず、最も簡単な方法であり、最も難しい方法です。 皆さんのアググレゲートは、おそらくあまりにも肥大したオブジェクトになってしまったのでしょう。 それなら、私たちが取ることができる_もしかしたら_最善の方法は、Aggregate Rootを最初から分離させることです。 肥大したオブジェクトは複雑さが高いです。 責任を持つ領域も広いです。 小さなオブジェクトの複数は互いのIntegrationが難しいですが、小さく保つことは大きな価値があることです。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#a6e22e">@AggregateRoot</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">User</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">//</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">@AggregateRoot</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Auth</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">//</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">@AggregateRoot</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Information</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">//</span>
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>ライフサイクルを共有しない限り、オブジェクトをより小さく、より短く分割してください。もちろん、このアプローチは必然的に相互の統合（インテグレーション）が求められるため、実装時に注意を払う必要があります。しかし、小さなオブジェクトは使いやすく、理解しやすいという利点があります。</p>
+<p>例えば、皆さんが肥大化したオブジェクトをテストすることを考えてみてください。多くの場合、1つのオブジェクトに多くの協力関係やフィールドがあると、テストが非常に困難になります。これを開発時にあまり意識しないのは、SpringのIoCコンテナなどを使ってオブジェクトの生成と管理の責任を委譲しているためです。これは非常に便利な機能ですが、その結果として初期化が難しいオブジェクトが生まれてしまうこともあります。</p>
+<h5 id="時には技巧を弄して">時には技巧を弄して<a href="#時には技巧を弄して" class="hanchor" ariaLabel="Anchor">#</a> </h5>
+<p>「@Inheritance」アノテーションや「@MappedSuperclass」は、オブジェクトの継承を通じて、オブジェクト指向の観点からアプリケーションとドメインの設計をサポートします。これらは異なるアノテーションですが、似たような機能を提供するため、ここでは「@Inheritance」を基に説明します。</p>
+<p>外部から「User」をどのように捉えるでしょうか？例えば、皆さんがサービスAのユーザーであると仮定します。サービスAはコマースの会員システムで、ログイン後に自分の名前や生年月日を変更することができます。しかし、電子メールの変更権限は持っていないとします。</p>
+<p>一方で、管理者はこれらの機能を提供されています。これは、同じオブジェクトに対して異なるビジネスロジックが適用されていることを意味します。この不一致は、現実のアプリケーションでよく見られる普遍的な問題です。アプリケーションが小規模であれば、これはそれほど大きな問題にはなりません。Aggregate Rootがすべてのロジックを担当しても、影響は限定的です。しかし、大規模なシステムになると、Aggregate Rootが「やむを得ず」肥大化してしまうケースが確かに存在します。意図的かどうかにかかわらず、こうしたコードの肥大化に直面することになります。なぜなら、オブジェクトの拡張性を開いた時点で、将来的にこのオブジェクトの「コードレベルの飽和度」が上がることを予期しているからです。そうでなければ、オブジェクトを設計した段階で「ここはもう修正しません！」と言って、すでに完成したことを宣言していたでしょう。</p>
+<p>幸い、オブジェクト指向の観点から見ると、継承を利用することで多くの問題を解決できます。少なくともこの場合、継承関係による強い依存性が、むしろ助けになることがあります。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#a6e22e">@AggregateRoot</span>()
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">@Inheritance</span>(strategy <span style="color:#f92672">=</span> strategy <span style="color:#f92672">=</span> InheritanceType.<span style="color:#a6e22e">JOINED</span>)
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">@DiscriminatorColumn</span>()
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">@Getter</span>(access <span style="color:#f92672">=</span> AccessType.<span style="color:#a6e22e">PUBLIC</span>)
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">User</span> { <span style="color:#75715e">// アクセス制限</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">@Id</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">protected</span> UserId id;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">@Entity</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">AdminUser</span> <span style="color:#66d9ef">extends</span> User { <span style="color:#75715e">// 同じTable(Entity)、他のオブジェクト</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">removeInformation</span>() {
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// Do something..</span>
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h2 id="最小限のオブジェクト">最小限のオブジェクト<a href="#最小限のオブジェクト" class="hanchor" ariaLabel="Anchor">#</a> </h2>
+<p>Aggregate Rootの複雑さは避けられない要素です。もし、複雑度を定量的に測定した指標（例えば、循環的複雑度など）が「これ以上は許容できない」とされる閾値に達した場合、設計の改善を図るべき義務が生じます。ドメイン駆動設計の目的は、Aggregate Rootによってビジネスロジックをカプセル化し、外部からのアクセスやロジックの断片化を防ぐことですが、現実の複雑な問題を解決しようとすると、複雑さが増すのは避けられません。これは、小規模なサービスであっても起こり得ることです。</p>
+<p>複雑さを解決する方法はいくつかあります。例えば、Domain Eventを利用して（トランザクション境界は異なるものの、同じアプリケーション内で動作するように）処理することも一つの手ですし、あえて「大きなオブジェクト」として維持するのも一つのアプローチです。重要なのは、複雑さの本質を見極めることです。</p>
+<p>小さく分割するのは難しいことです。トランザクション境界を分離するということは、必然的に最終的な整合性を考慮したアプリケーション設計を必要とします。従来の保守的で安定したRDBMSのトランザクションを使わないだけの価値があると判断できるなら、その方向で進めるべきでしょう。</p>
+
+      </div></div>
+
+  
+    
+<div class="pagination">
+  <div class="pagination__title">
+    <span class="pagination__title-h">Read other posts</span>
+    <hr />
+  </div>
+  <div class="pagination__buttons">
+    
+      <a href="http://localhost:1313/ja/posts/2024/01/10/leetcode-215-kth-largest-element-in-an-array/" class="button inline prev">
+        Leetcode - 215.Kth Largest Element in an Array
+      </a>
+    
+    
+      ::
+    
+    
+      <a href="http://localhost:1313/ja/posts/2018/07/04/laravel-dependency-injection-container/" class="button inline next">
+        ララベルの依存性注入(DI)コンテナ
+      </a>
+    
+  </div>
+</div>
+
+
+  
+
+  
+    <div class="comment">
+   <div class="comment__title">
+     <span class="comment__title-h">COMMENTS</span>
+     <hr />
+   </div>
+  </div>
+  <script src="https://giscus.app/client.js"
+    data-repo="hwajin-me/blog.hwajin.me"
+    data-repo-id="MDEwOlJlcG9zaXRvcnkyNDUzNTI0Mjk="
+    data-category="General"
+    data-category-id="DIC_kwDODp_H7c4COW6Q"
+    data-mapping="pathname"
+    data-reactions-enabled="1"
+    data-emit-metadata="1"
+    data-input-position="bottom"
+    data-theme="dark_high_contrast"
+    data-lang="en"
+    data-loading="lazy"
+    crossorigin="anonymous"
+    async>
+  </script>
+  
+</article>
+
+  </div>
+
+  
+    <footer class="footer">
+  <div class="footer__inner">
+    
+      <div class="copyright">
+        <span>© 2024 Powered by <a href="https://gohugo.io">Hugo</a></span>
+    
+      <span>:: <a href="https://github.com/panr/hugo-theme-terminal" target="_blank">Theme</a> made by <a href="https://github.com/panr" target="_blank">panr</a></span>
+      </div>
+  </div>
+</footer>
+
+
+
+
+
+
+<script type="text/javascript" src="/bundle.min.js"></script>
+
+
+
+
+
+  
+</div>
+
+</body>
+</html>

@@ -5,6 +5,7 @@ author = "Hwajin Lee"
 tags = ["algorithm"]
 description = "Given two non-negative integers `low` and `high`. Return the *count of odd numbers between* `low` *and* `high` *(inclusive)*."
 keywords = ["algorithm","leetcode"]
+toc = false
 +++
 
 Given two non-negative integers `low` and `high`. Return the *count of odd numbers between* `low` *and* `high` *(inclusive)*.

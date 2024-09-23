@@ -5,6 +5,7 @@ author = "Hwajin Lee"
 tags = ["algorithm"]
 description = "You are given an array of strings `arr`. A string `s` is formed by the **concatenation** of a **subsequence** of `arr` that has **unique characters**."
 keywords = ["algorithm","leetcode"]
+toc = false
 +++
 
 You are given an array of strings `arr`. A string `s` is formed by the **concatenation** of a **subsequence** of `arr` that has **unique characters**.

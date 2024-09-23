@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Domain-Driven-Design on Hwajin&#39;s Blog</title>
+    <link>http://localhost:1313/ja/tags/domain-driven-design/</link>
+    <description>Recent content in Domain-Driven-Design on Hwajin&#39;s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>ja</language>
+    <lastBuildDate>Fri, 06 May 2022 00:35:00 +0900</lastBuildDate><atom:link href="http://localhost:1313/ja/tags/domain-driven-design/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>ドメイン駆動設計のAggregate Rootを設計&amp;維持する方法論</title>
+      <link>http://localhost:1313/ja/posts/2022/05/06/design-and-management-of-aggregate-root-ddd/</link>
+      <pubDate>Fri, 06 May 2022 00:35:00 +0900</pubDate>
+      
+      <guid>http://localhost:1313/ja/posts/2022/05/06/design-and-management-of-aggregate-root-ddd/</guid>
+      <description>&lt;h2 id=&#34;コードのライフサイクル&#34;&gt;コードのライフサイクル&lt;/h2&gt;
+&lt;p&gt;コードもまた、さまざまな理由で生成と消滅を繰り返します。私たちは、コードに反映される現実がすでに過去のものであることを理解しています。これが静的なコードが持つ限界であり、しばしば「将来の変化に備えた設計」を行うことがあります。しかし、このアプローチは危険な結果を招く可能性があります。ビジネスの世界は急速に変化し、それに伴い私たちのコードも激しく変わり、進化していきます。コードはビジネスのライフサイクルと深い結びつきを持っているため、将来のための設計は、しばしば意図しない使われ方をしたり、そもそも使われる機会がないことも多いです。同じプロジェクトで、同じ企画者や開発者が作り出したサービスであっても同様です。そして、これらの要件の変化は決して異常なことでも、誤りでもありません。&lt;/p&gt;
+&lt;p&gt;これらのライフサイクルを把握し、分析して、現時点のドメインに最適なオブジェクトを設計することが、私たちの目指す目標です。将来に備えるには、適切な責任を持つオブジェクトを設計し、拡張性の高いソフトウェアを構築すること、そして明細を分離し、抽象化する技術を活用することが重要です。レガシーと呼ばれる巨大なシステムは、単に「未来に使えそうな機能」を多く持たないからではなく、複雑に絡み合った依存関係と、修正が困難なほど巨大なコードベースに起因します。&lt;/p&gt;
+&lt;p&gt;ご存知のとおり、コードのライフサイクルはビジネスの成長速度や方向性に大きな影響を受けます。したがって、私たちがコードやオブジェクトを設計する際に最も重視すべきは、これらのライフサイクルと強く結びつき、同じライフサイクルを共有するシステムを開発することです。この点が明確であれば、オブジェクトの凝集度や結合度にも自然と配慮でき、結果として適切な設計に繋がるのです。&lt;/p&gt;
+&lt;h2 id=&#34;最小責任の原則&#34;&gt;最小責任の原則&lt;/h2&gt;
+&lt;p&gt;　オブジェクトを設計する際、巨大なオブジェクトは必然的に問題を引き起こします。実際、オブジェクトが大きくなっている時点で、すでに設計上の問題があることを示しているのです。たとえば、注文を管理するAggregate Rootを設計する場合を考えてみましょう。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-java&#34; data-lang=&#34;java&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;@AggregateRoot&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Order&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#75715e&#34;&gt;// いろんな機能(order placed, etc..)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;注文を管理するAggregate Rootがどの範囲まで担当すべきかについて、明確な正解はありません。しかし、基本的には小さければ小さいほど良いです。Aggregate Rootや他のオブジェクトを設計する際の基本原則は、分割不可能な単位まで細かく分けて表現することです。Microservice architectureなどの流行りなシステムが、かえって複雑さを増してしまう理由の一つは、この基本原則を無視して開発されているからです。ドメイン駆動設計において、大きなAggregate Rootは多くの問題を引き起こします。たとえそれが論理的に見て「凝集度の高い」コードであったとしても、問題が生じることがあるのです。&lt;/p&gt;
+&lt;p&gt;ドメインロジックはDomain Layerに存在すべきであり、各ドメインのAggregate Rootはそれらのロジックをすべて担います。この設計では、オブジェクトに過剰な責任を負わせたり、少ない責任に対して過剰な機能を追加したりすると、Aggregate Rootが管理できる範囲を超えてしまいます。&lt;/p&gt;
+&lt;p&gt;もちろん、常に小さなオブジェクトを設計できるとは限りません。これは自然なことです。しかし、メソッド（Aggregate Rootの観点ではビジネスロジックの行動）は、オブジェクト同士の協調によって実現できます。このとき、ステートレスなオブジェクトであるDomain Serviceが、このような問題の解決策の一つとなるかもしれません。&lt;/p&gt;
+&lt;h2 id=&#34;小さくなれない設計&#34;&gt;小さくなれない設計&lt;/h2&gt;
+&lt;p&gt;1つのAggregate Rootに対して複数のシステムが協調して動作することは、非常によくあることです。例えば、バッチ処理のようなケースでは、Aggregate Rootとして管理するのが難しく、そのようなアプローチは推奨されません。しかし、Administrator APIとUser APIが同じAggregate Rootを利用する場合は、複雑性が高くなることがあります。これに対する明確な正解はありませんが、私が通常提示する代替案は3つあります。&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;肥大したAggregate Root&lt;/li&gt;
+&lt;li&gt;Domain Serviceオブジェクトへの分離&lt;/li&gt;
+&lt;li&gt;Aggregate Rootを分離。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3 id=&#34;肥大したaggregate-root&#34;&gt;肥大したAggregate Root&lt;/h3&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-java&#34; data-lang=&#34;java&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;User&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;public&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;void&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;delete&lt;/span&gt;() {}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  	&lt;span style=&#34;color:#66d9ef&#34;&gt;public&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;void&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;addInformation&lt;/span&gt;() {}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  	&lt;span style=&#34;color:#66d9ef&#34;&gt;public&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;void&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;removeInformation&lt;/span&gt;() {}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  	&lt;span style=&#34;color:#75715e&#34;&gt;// ...and&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;この方法は非常に一般的です。デメリットとして、行為（メソッド）が多くなることがありますが、オブジェクトが自身の行為を公開することで得られるメリットは非常に大きいと考えています。例を挙げてみましょう。良いコードとは、コード自体が行為と結果を表現できるものであり、詩や文章のように読み、他の開発者が事前に特別な知識を持たなくても理解できるようなものです。&lt;/p&gt;
+&lt;p&gt;例えば、上記のコードでは「public」を使ってこの行為を外部に公開しています。これは、その行為が外部から利用でき、また利用されるべきものであることを意味します。また、「void」を使って、私たちはこの行為がいかなる追加の情報も返さないことを示しています。そして、行為の名前がその目的を明確に伝えています。&lt;/p&gt;
+&lt;p&gt;私が提案する3つの方法はどれも、Aggregate Rootにメソッドを追加する必要があるという点では共通していますが、この方法を別途紹介する理由は、Aggregate Rootにあるロジックを直接呼び出すという点で、他の2つの方法とは少し異なるからです。&lt;/p&gt;
+&lt;h3 id=&#34;domain-serviceオブジェクトへの分離&#34;&gt;Domain Serviceオブジェクトへの分離&lt;/h3&gt;
+&lt;p&gt;Domain Serviceは、非常に特殊な用途のサービスオブジェクトです。 自ら状態を管理せず、「Aggregate Root」を外部から注入を受けて使用します。 まるでState machine patternと類似して動作します。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-java&#34; data-lang=&#34;java&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;@Service&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;UserManagementService&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  	&lt;span style=&#34;color:#66d9ef&#34;&gt;public&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;void&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;removeInformation&lt;/span&gt;(&lt;span style=&#34;color:#a6e22e&#34;&gt;@Nonnull&lt;/span&gt; User user) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        user.&lt;span style=&#34;color:#a6e22e&#34;&gt;removeInformation&lt;/span&gt;();
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-java&#34; data-lang=&#34;java&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;@AggregateRoot&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;User&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;     &lt;span style=&#34;color:#66d9ef&#34;&gt;private&lt;/span&gt; Information information;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;     &lt;span style=&#34;color:#66d9ef&#34;&gt;void&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;removeInformation&lt;/span&gt;() {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;         &lt;span style=&#34;color:#66d9ef&#34;&gt;this&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;information&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;null&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;     }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;この方法を使う理由について説明します。例えば、皆さんが複雑なオブジェクトを設計していると仮定します。多くの場合、APIは管理用のAPIと一般ユーザー向けのAPIの2つを持っており、これらが混在して使用される可能性が高いです。このような状況では、特定の行為の呼び出しを明示的に制限する必要が生じることがあります。&lt;/p&gt;</description>
+      <content>&lt;h2 id=&#34;コードのライフサイクル&#34;&gt;コードのライフサイクル&lt;/h2&gt;
+&lt;p&gt;コードもまた、さまざまな理由で生成と消滅を繰り返します。私たちは、コードに反映される現実がすでに過去のものであることを理解しています。これが静的なコードが持つ限界であり、しばしば「将来の変化に備えた設計」を行うことがあります。しかし、このアプローチは危険な結果を招く可能性があります。ビジネスの世界は急速に変化し、それに伴い私たちのコードも激しく変わり、進化していきます。コードはビジネスのライフサイクルと深い結びつきを持っているため、将来のための設計は、しばしば意図しない使われ方をしたり、そもそも使われる機会がないことも多いです。同じプロジェクトで、同じ企画者や開発者が作り出したサービスであっても同様です。そして、これらの要件の変化は決して異常なことでも、誤りでもありません。&lt;/p&gt;
+&lt;p&gt;これらのライフサイクルを把握し、分析して、現時点のドメインに最適なオブジェクトを設計することが、私たちの目指す目標です。将来に備えるには、適切な責任を持つオブジェクトを設計し、拡張性の高いソフトウェアを構築すること、そして明細を分離し、抽象化する技術を活用することが重要です。レガシーと呼ばれる巨大なシステムは、単に「未来に使えそうな機能」を多く持たないからではなく、複雑に絡み合った依存関係と、修正が困難なほど巨大なコードベースに起因します。&lt;/p&gt;
+&lt;p&gt;ご存知のとおり、コードのライフサイクルはビジネスの成長速度や方向性に大きな影響を受けます。したがって、私たちがコードやオブジェクトを設計する際に最も重視すべきは、これらのライフサイクルと強く結びつき、同じライフサイクルを共有するシステムを開発することです。この点が明確であれば、オブジェクトの凝集度や結合度にも自然と配慮でき、結果として適切な設計に繋がるのです。&lt;/p&gt;
+&lt;h2 id=&#34;最小責任の原則&#34;&gt;最小責任の原則&lt;/h2&gt;
+&lt;p&gt;　オブジェクトを設計する際、巨大なオブジェクトは必然的に問題を引き起こします。実際、オブジェクトが大きくなっている時点で、すでに設計上の問題があることを示しているのです。たとえば、注文を管理するAggregate Rootを設計する場合を考えてみましょう。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-java&#34; data-lang=&#34;java&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;@AggregateRoot&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Order&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#75715e&#34;&gt;// いろんな機能(order placed, etc..)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;注文を管理するAggregate Rootがどの範囲まで担当すべきかについて、明確な正解はありません。しかし、基本的には小さければ小さいほど良いです。Aggregate Rootや他のオブジェクトを設計する際の基本原則は、分割不可能な単位まで細かく分けて表現することです。Microservice architectureなどの流行りなシステムが、かえって複雑さを増してしまう理由の一つは、この基本原則を無視して開発されているからです。ドメイン駆動設計において、大きなAggregate Rootは多くの問題を引き起こします。たとえそれが論理的に見て「凝集度の高い」コードであったとしても、問題が生じることがあるのです。&lt;/p&gt;
+&lt;p&gt;ドメインロジックはDomain Layerに存在すべきであり、各ドメインのAggregate Rootはそれらのロジックをすべて担います。この設計では、オブジェクトに過剰な責任を負わせたり、少ない責任に対して過剰な機能を追加したりすると、Aggregate Rootが管理できる範囲を超えてしまいます。&lt;/p&gt;
+&lt;p&gt;もちろん、常に小さなオブジェクトを設計できるとは限りません。これは自然なことです。しかし、メソッド（Aggregate Rootの観点ではビジネスロジックの行動）は、オブジェクト同士の協調によって実現できます。このとき、ステートレスなオブジェクトであるDomain Serviceが、このような問題の解決策の一つとなるかもしれません。&lt;/p&gt;
+&lt;h2 id=&#34;小さくなれない設計&#34;&gt;小さくなれない設計&lt;/h2&gt;
+&lt;p&gt;1つのAggregate Rootに対して複数のシステムが協調して動作することは、非常によくあることです。例えば、バッチ処理のようなケースでは、Aggregate Rootとして管理するのが難しく、そのようなアプローチは推奨されません。しかし、Administrator APIとUser APIが同じAggregate Rootを利用する場合は、複雑性が高くなることがあります。これに対する明確な正解はありませんが、私が通常提示する代替案は3つあります。&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;肥大したAggregate Root&lt;/li&gt;
+&lt;li&gt;Domain Serviceオブジェクトへの分離&lt;/li&gt;
+&lt;li&gt;Aggregate Rootを分離。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3 id=&#34;肥大したaggregate-root&#34;&gt;肥大したAggregate Root&lt;/h3&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-java&#34; data-lang=&#34;java&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;User&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;public&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;void&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;delete&lt;/span&gt;() {}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  	&lt;span style=&#34;color:#66d9ef&#34;&gt;public&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;void&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;addInformation&lt;/span&gt;() {}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  	&lt;span style=&#34;color:#66d9ef&#34;&gt;public&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;void&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;removeInformation&lt;/span&gt;() {}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  	&lt;span style=&#34;color:#75715e&#34;&gt;// ...and&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;この方法は非常に一般的です。デメリットとして、行為（メソッド）が多くなることがありますが、オブジェクトが自身の行為を公開することで得られるメリットは非常に大きいと考えています。例を挙げてみましょう。良いコードとは、コード自体が行為と結果を表現できるものであり、詩や文章のように読み、他の開発者が事前に特別な知識を持たなくても理解できるようなものです。&lt;/p&gt;
+&lt;p&gt;例えば、上記のコードでは「public」を使ってこの行為を外部に公開しています。これは、その行為が外部から利用でき、また利用されるべきものであることを意味します。また、「void」を使って、私たちはこの行為がいかなる追加の情報も返さないことを示しています。そして、行為の名前がその目的を明確に伝えています。&lt;/p&gt;
+&lt;p&gt;私が提案する3つの方法はどれも、Aggregate Rootにメソッドを追加する必要があるという点では共通していますが、この方法を別途紹介する理由は、Aggregate Rootにあるロジックを直接呼び出すという点で、他の2つの方法とは少し異なるからです。&lt;/p&gt;
+&lt;h3 id=&#34;domain-serviceオブジェクトへの分離&#34;&gt;Domain Serviceオブジェクトへの分離&lt;/h3&gt;
+&lt;p&gt;Domain Serviceは、非常に特殊な用途のサービスオブジェクトです。 自ら状態を管理せず、「Aggregate Root」を外部から注入を受けて使用します。 まるでState machine patternと類似して動作します。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-java&#34; data-lang=&#34;java&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;@Service&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;UserManagementService&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  	&lt;span style=&#34;color:#66d9ef&#34;&gt;public&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;void&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;removeInformation&lt;/span&gt;(&lt;span style=&#34;color:#a6e22e&#34;&gt;@Nonnull&lt;/span&gt; User user) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        user.&lt;span style=&#34;color:#a6e22e&#34;&gt;removeInformation&lt;/span&gt;();
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-java&#34; data-lang=&#34;java&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;@AggregateRoot&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;User&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;     &lt;span style=&#34;color:#66d9ef&#34;&gt;private&lt;/span&gt; Information information;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;     &lt;span style=&#34;color:#66d9ef&#34;&gt;void&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;removeInformation&lt;/span&gt;() {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;         &lt;span style=&#34;color:#66d9ef&#34;&gt;this&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;information&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;null&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;     }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;この方法を使う理由について説明します。例えば、皆さんが複雑なオブジェクトを設計していると仮定します。多くの場合、APIは管理用のAPIと一般ユーザー向けのAPIの2つを持っており、これらが混在して使用される可能性が高いです。このような状況では、特定の行為の呼び出しを明示的に制限する必要が生じることがあります。&lt;/p&gt;
+&lt;p&gt;ビジネスロジックの呼び出しはApplication Layerが担当し、呼び出しの正当性（この操作が実行可能かどうか）を検証するのが望ましいです。しかし、ドメインロジックからこれを切り離す必要があるケースは現実的に頻繁に発生します。そのような場合、User Aggregate Rootの行為を隠蔽し、その呼び出しを「User Management Service」に委ねることができます。このような設計では、行為の利用者（呼び出し元）が、行為を呼び出す時点で必要な情報をある程度把握できるため、効果的な方法だと言えます。もしこれを強く制限したい場合は、ArchUnitなどのアーキテクチャテストを導入することをお勧めします。&lt;/p&gt;
+&lt;p&gt;ただし、この方法にも欠点があります。それは、すべての作業が「User Aggregate Root」を扱う際には見えにくいという点です。結果として、1つの行為に対して2回の修正が必要になることが避けられません。これは良いパターンなのでしょうか？それは状況によりますが、合理的な選択肢の一つであることは確かです。&lt;/p&gt;
+&lt;h3 id=&#34;aggregate-rootを分離&#34;&gt;Aggregate Rootを分離&lt;/h3&gt;
+&lt;p&gt;まず、最も簡単な方法であり、最も難しい方法です。 皆さんのアググレゲートは、おそらくあまりにも肥大したオブジェクトになってしまったのでしょう。 それなら、私たちが取ることができる_もしかしたら_最善の方法は、Aggregate Rootを最初から分離させることです。 肥大したオブジェクトは複雑さが高いです。 責任を持つ領域も広いです。 小さなオブジェクトの複数は互いのIntegrationが難しいですが、小さく保つことは大きな価値があることです。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-java&#34; data-lang=&#34;java&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;@AggregateRoot&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;public&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;User&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#75715e&#34;&gt;//&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;@AggregateRoot&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;public&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Auth&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#75715e&#34;&gt;//&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;@AggregateRoot&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;public&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Information&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#75715e&#34;&gt;//&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;ライフサイクルを共有しない限り、オブジェクトをより小さく、より短く分割してください。もちろん、このアプローチは必然的に相互の統合（インテグレーション）が求められるため、実装時に注意を払う必要があります。しかし、小さなオブジェクトは使いやすく、理解しやすいという利点があります。&lt;/p&gt;
+&lt;p&gt;例えば、皆さんが肥大化したオブジェクトをテストすることを考えてみてください。多くの場合、1つのオブジェクトに多くの協力関係やフィールドがあると、テストが非常に困難になります。これを開発時にあまり意識しないのは、SpringのIoCコンテナなどを使ってオブジェクトの生成と管理の責任を委譲しているためです。これは非常に便利な機能ですが、その結果として初期化が難しいオブジェクトが生まれてしまうこともあります。&lt;/p&gt;
+&lt;h5 id=&#34;時には技巧を弄して&#34;&gt;時には技巧を弄して&lt;/h5&gt;
+&lt;p&gt;「@Inheritance」アノテーションや「@MappedSuperclass」は、オブジェクトの継承を通じて、オブジェクト指向の観点からアプリケーションとドメインの設計をサポートします。これらは異なるアノテーションですが、似たような機能を提供するため、ここでは「@Inheritance」を基に説明します。&lt;/p&gt;
+&lt;p&gt;外部から「User」をどのように捉えるでしょうか？例えば、皆さんがサービスAのユーザーであると仮定します。サービスAはコマースの会員システムで、ログイン後に自分の名前や生年月日を変更することができます。しかし、電子メールの変更権限は持っていないとします。&lt;/p&gt;
+&lt;p&gt;一方で、管理者はこれらの機能を提供されています。これは、同じオブジェクトに対して異なるビジネスロジックが適用されていることを意味します。この不一致は、現実のアプリケーションでよく見られる普遍的な問題です。アプリケーションが小規模であれば、これはそれほど大きな問題にはなりません。Aggregate Rootがすべてのロジックを担当しても、影響は限定的です。しかし、大規模なシステムになると、Aggregate Rootが「やむを得ず」肥大化してしまうケースが確かに存在します。意図的かどうかにかかわらず、こうしたコードの肥大化に直面することになります。なぜなら、オブジェクトの拡張性を開いた時点で、将来的にこのオブジェクトの「コードレベルの飽和度」が上がることを予期しているからです。そうでなければ、オブジェクトを設計した段階で「ここはもう修正しません！」と言って、すでに完成したことを宣言していたでしょう。&lt;/p&gt;
+&lt;p&gt;幸い、オブジェクト指向の観点から見ると、継承を利用することで多くの問題を解決できます。少なくともこの場合、継承関係による強い依存性が、むしろ助けになることがあります。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-java&#34; data-lang=&#34;java&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;@AggregateRoot&lt;/span&gt;()
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;@Inheritance&lt;/span&gt;(strategy &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; strategy &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; InheritanceType.&lt;span style=&#34;color:#a6e22e&#34;&gt;JOINED&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;@DiscriminatorColumn&lt;/span&gt;()
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;@Getter&lt;/span&gt;(access &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; AccessType.&lt;span style=&#34;color:#a6e22e&#34;&gt;PUBLIC&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;User&lt;/span&gt; { &lt;span style=&#34;color:#75715e&#34;&gt;// アクセス制限&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#a6e22e&#34;&gt;@Id&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;protected&lt;/span&gt; UserId id;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;@Entity&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;public&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;AdminUser&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;extends&lt;/span&gt; User { &lt;span style=&#34;color:#75715e&#34;&gt;// 同じTable(Entity)、他のオブジェクト&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;public&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;void&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;removeInformation&lt;/span&gt;() {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#75715e&#34;&gt;// Do something..&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;最小限のオブジェクト&#34;&gt;最小限のオブジェクト&lt;/h2&gt;
+&lt;p&gt;Aggregate Rootの複雑さは避けられない要素です。もし、複雑度を定量的に測定した指標（例えば、循環的複雑度など）が「これ以上は許容できない」とされる閾値に達した場合、設計の改善を図るべき義務が生じます。ドメイン駆動設計の目的は、Aggregate Rootによってビジネスロジックをカプセル化し、外部からのアクセスやロジックの断片化を防ぐことですが、現実の複雑な問題を解決しようとすると、複雑さが増すのは避けられません。これは、小規模なサービスであっても起こり得ることです。&lt;/p&gt;
+&lt;p&gt;複雑さを解決する方法はいくつかあります。例えば、Domain Eventを利用して（トランザクション境界は異なるものの、同じアプリケーション内で動作するように）処理することも一つの手ですし、あえて「大きなオブジェクト」として維持するのも一つのアプローチです。重要なのは、複雑さの本質を見極めることです。&lt;/p&gt;
+&lt;p&gt;小さく分割するのは難しいことです。トランザクション境界を分離するということは、必然的に最終的な整合性を考慮したアプリケーション設計を必要とします。従来の保守的で安定したRDBMSのトランザクションを使わないだけの価値があると判断できるなら、その方向で進めるべきでしょう。&lt;/p&gt;
+</content>
+    </item>
+    
+  </channel>
+</rss>

@@ -18,11 +18,41 @@
     </item>
     
     <item>
+      <title>Ddd</title>
+      <link>http://localhost:1313/ja/tags/ddd/</link>
+      <pubDate>Fri, 06 May 2022 00:35:00 +0900</pubDate>
+      
+      <guid>http://localhost:1313/ja/tags/ddd/</guid>
+      <description></description>
+      <content></content>
+    </item>
+    
+    <item>
       <title>Development</title>
       <link>http://localhost:1313/ja/tags/development/</link>
-      <pubDate>Wed, 04 Jul 2018 15:00:00 +0000</pubDate>
+      <pubDate>Fri, 06 May 2022 00:35:00 +0900</pubDate>
       
       <guid>http://localhost:1313/ja/tags/development/</guid>
+      <description></description>
+      <content></content>
+    </item>
+    
+    <item>
+      <title>Domain-Driven-Design</title>
+      <link>http://localhost:1313/ja/tags/domain-driven-design/</link>
+      <pubDate>Fri, 06 May 2022 00:35:00 +0900</pubDate>
+      
+      <guid>http://localhost:1313/ja/tags/domain-driven-design/</guid>
+      <description></description>
+      <content></content>
+    </item>
+    
+    <item>
+      <title>Idea</title>
+      <link>http://localhost:1313/ja/tags/idea/</link>
+      <pubDate>Fri, 06 May 2022 00:35:00 +0900</pubDate>
+      
+      <guid>http://localhost:1313/ja/tags/idea/</guid>
       <description></description>
       <content></content>
     </item>
@@ -33,6 +63,16 @@
       <pubDate>Wed, 04 Jul 2018 15:00:00 +0000</pubDate>
       
       <guid>http://localhost:1313/ja/tags/laravel/</guid>
+      <description></description>
+      <content></content>
+    </item>
+    
+    <item>
+      <title>ララベル</title>
+      <link>http://localhost:1313/ja/tags/%E3%83%A9%E3%83%A9%E3%83%99%E3%83%AB/</link>
+      <pubDate>Wed, 04 Jul 2018 15:00:00 +0000</pubDate>
+      
+      <guid>http://localhost:1313/ja/tags/%E3%83%A9%E3%83%A9%E3%83%99%E3%83%AB/</guid>
       <description></description>
       <content></content>
     </item>

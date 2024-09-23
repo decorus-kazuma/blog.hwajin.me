@@ -5,6 +5,7 @@ author = "Hwajin Lee"
 tags = ["algorithm"]
 description = "Given an array, rotate the array to the right by `k` steps, where `k` is non-negative."
 keywords = ["algorithm","leetcode"]
+toc = false
 +++
 
 ## Problem,

@@ -1050,7 +1050,7 @@ Return the maximum area of a piece of cake after you cut at each horizontal and 
     </item>
     
     <item>
-      <title>ララベルの依存性注入(DI)コンテナ</title>
+      <title>라라벨의 의존성 주입 컨테이너</title>
       <link>http://localhost:1313/ko/posts/2018/07/04/laravel-dependency-injection-container/</link>
       <pubDate>Wed, 04 Jul 2018 15:00:00 +0000</pubDate>
       
@@ -1537,6 +1537,16 @@ Return the maximum area of a piece of cake after you cut at each horizontal and 
 &lt;li&gt;이 문서는 &lt;a href=&#34;https://github.com/hwajin-me&#34;&gt;Hwajin Lee &amp;laquo;brightdelusion@gmail.com&amp;raquo;&lt;/a&gt; 가 번역하였습니다.&lt;/li&gt;
 &lt;/ul&gt;
 </content>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>http://localhost:1313/ko/posts/no-transaction-with-different-services/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>http://localhost:1313/ko/posts/no-transaction-with-different-services/</guid>
+      <description></description>
+      <content></content>
     </item>
     
   </channel>

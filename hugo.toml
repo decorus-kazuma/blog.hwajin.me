@@ -1,7 +1,9 @@
 baseURL = 'https://blog.hwajin.me/'
-languageCode = 'ko-kr'
+languageCode = 'ja-JP'
 title = "Hwajin's Blog."
-paginate = 20
+paginate = 10
+defaultContentLanguage = 'ja'
+defaultContentLanguageInSubdir = true
 
 [params]
   # dir name of your main content (default is `content/posts`).
@@ -9,7 +11,7 @@ paginate = 20
   contentTypeName = "posts"
 
   # if you set this to 0, only submenu trigger will be visible
-  showMenuItems = 5
+  showMenuItems = 4
 
   # show selector to switch language
   showLanguageSelector = true
@@ -60,15 +62,98 @@ paginate = 20
     ID = 'G-LJWJ9LNV2L'
 
 [languages]
+
+  [languages.ko]
+    disabled = false
+    languageName = "🇰🇷 Korean"
+    title = "Hwajin's Blog"
+    weight = 2
+    [languages.ko.params]
+      subtitle = "Software Engineering, Hwajin's personal blog."
+      owner = "Hwajin Lee"
+      keywords = "Software Engineering,Develop,Backend Engineer,Spring,Java,PHP"
+      copyright = "Hwajin Lee"
+      menuMore = "Show more"
+      readMore = "Read more"
+      readOtherPosts = "Read other posts"
+      newerPosts = "Newer posts"
+      olderPosts = "Older posts"
+      missingContentMessage = "Page not found..."
+      missingBackButtonLabel = "Back to home page"
+      minuteReadingTime = "min read"
+      words = "words"
+
+      [languages.ko.params.logo]
+        logoText = "Hwajin's Blog"
+        logoHomeLink = "/"
+
+      [languages.ko.menu]
+        [[languages.ko.menu.main]]
+          identifier = "about"
+          name = "About"
+          url = "/ko/about"
+
+        [[languages.ko.menu.main]]
+          identifier = "linkedin"
+          name = "Linkedin"
+          url = "https://www.linkedin.com/in/hwajin-me/"
+
+        [[languages.ko.menu.main]]
+          identifier = "github"
+          name = "Github"
+          url = "https://github.com/hwajin-me"
+
+  [languages.ja]
+    disabled = false
+    languageName = "🇯🇵 Japanese"
+    title = "Hwajin's Blog"
+    weight = 1
+
+    [languages.ja.params]
+      subtitle = "Software Engineering, Hwajin's personal blog."
+      owner = "Hwajin(和真) Lee"
+      keywords = "Software Engineering,Develop,Backend Engineer,Spring,Java,PHP"
+      copyright = "Hwajin Lee"
+      menuMore = "Show more"
+      readMore = "Read more"
+      readOtherPosts = "Read other posts"
+      newerPosts = "Newer posts"
+      olderPosts = "Older posts"
+      missingContentMessage = "Page not found..."
+      missingBackButtonLabel = "Back to home page"
+      minuteReadingTime = "min read"
+      words = "words"
+
+      [languages.ja.params.logo]
+        logoText = "Hwajin's Blog"
+        logoHomeLink = "/"
+
+      [languages.ja.menu]
+        [[languages.ja.menu.main]]
+          identifier = "about"
+          name = "About"
+          url = "/ja/about"
+
+        [[languages.ja.menu.main]]
+          identifier = "linkedin"
+          name = "Linkedin"
+          url = "https://www.linkedin.com/in/hwajin-me/"
+
+        [[languages.ja.menu.main]]
+          identifier = "github"
+          name = "Github"
+          url = "https://github.com/hwajin-me"
+
   [languages.en]
     disabled = false
     languageName = "🇺🇸 English"
     title = "Hwajin's Blog"
+    weight = 3
 
     [languages.en.params]
-      subtitle = "Hwajin Lee(이화진,和真)'s Personal Blog, Creative, Software Engineering"
+      subtitle = "Software Engineering, Hwajin's personal blog."
       owner = "Hwajin Lee"
-      keywords = "Software Engineering,Develop,Backend Engineer"
+      keywords = "Software Engineering,Develop,Backend Engineer,Spring,Java,PHP"
       copyright = "Hwajin Lee"
       menuMore = "Show more"
       readMore = "Read more"
@@ -90,65 +175,15 @@ paginate = 20
           name = "About"
           url = "/about"
 
-  [languages.ko]
-    disabled = false
-    languageName = "🇰🇷 Korean"
-    title = "Hwajin's Blog"
+        [[languages.en.menu.main]]
+          identifier = "linkedin"
+          name = "Linkedin"
+          url = "https://www.linkedin.com/in/hwajin-me/"
 
-    [languages.ko.params]
-      subtitle = "Hwajin Lee(이화진,和真)'s Personal Blog, Creative, Software Engineering"
-      owner = "Hwajin Lee"
-      keywords = "Software Engineering,Develop,Backend Engineer"
-      copyright = "Hwajin Lee"
-      menuMore = "Show more"
-      readMore = "Read more"
-      readOtherPosts = "Read other posts"
-      newerPosts = "Newer posts"
-      olderPosts = "Older posts"
-      missingContentMessage = "Page not found..."
-      missingBackButtonLabel = "Back to home page"
-      minuteReadingTime = "min read"
-      words = "words"
-
-      [languages.ko.params.logo]
-        logoText = "Hwajin's Blog"
-        logoHomeLink = "/"
-
-      [languages.ko.menu]
-        [[languages.ko.menu.main]]
-          identifier = "about"
-          name = "About"
-          url = "/about"
-
-  [languages.ja]
-    disabled = false
-    languageName = "🇯🇵 Japanese"
-    title = "Hwajin's Blog"
-
-    [languages.ja.params]
-      subtitle = "Hwajin Lee(이화진,和真)'s Personal Blog, Creative, Software Engineering"
-      owner = "Hwajin Lee"
-      keywords = "Software Engineering,Develop,Backend Engineer"
-      copyright = "Hwajin Lee"
-      menuMore = "Show more"
-      readMore = "Read more"
-      readOtherPosts = "Read other posts"
-      newerPosts = "Newer posts"
-      olderPosts = "Older posts"
-      missingContentMessage = "Page not found..."
-      missingBackButtonLabel = "Back to home page"
-      minuteReadingTime = "min read"
-      words = "words"
-
-      [languages.ja.params.logo]
-        logoText = "Hwajin's Blog"
-        logoHomeLink = "/"
-
-      [languages.ja.menu]
-        [[languages.ja.menu.main]]
-          identifier = "about"
-          name = "About"
-          url = "/about"
+        [[languages.en.menu.main]]
+          identifier = "github"
+          name = "Github"
+          url = "https://github.com/hwajin-me"
 
 [markup]
   [markup.goldmark]
