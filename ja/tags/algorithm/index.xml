@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Algorithm on Hwajin's Blog</title><link>https://blog.hwajin.me/ja/tags/algorithm/</link><description>Recent content in Algorithm on Hwajin's Blog</description><generator>Hugo -- gohugo.io</generator><language>ja</language><lastBuildDate>Wed, 10 Jan 2024 00:52:00 +0000</lastBuildDate><atom:link href="https://blog.hwajin.me/ja/tags/algorithm/index.xml" rel="self" type="application/rss+xml"/><item><title>Leetcode - 215.Kth Largest Element in an Array</title><link>https://blog.hwajin.me/ja/posts/2024/01/10/leetcode-215-kth-largest-element-in-an-array/</link><pubDate>Wed, 10 Jan 2024 00:52:00 +0000</pubDate><guid>https://blog.hwajin.me/ja/posts/2024/01/10/leetcode-215-kth-largest-element-in-an-array/</guid><description>&lt;h2 id="problem">Problem,&lt;/h2>
+&lt;p>Given an integer array nums and an integer k, return the kth largest element in the array.
+Note that it is the kth largest element in the sorted order, not the kth distinct element.
+Can you solve it without sorting?&lt;/p>
+&lt;p>&lt;strong>Example 1:&lt;/strong>&lt;/p>
+&lt;p>Input: nums = [3,2,1,5,6,4], k = 2
+Output: 5&lt;/p>
+&lt;p>&lt;strong>Example 2:&lt;/strong>&lt;/p>
+&lt;p>Input: nums = [3,2,3,1,2,4,5,5,6], k = 4
+Output: 4&lt;/p>
+&lt;h2 id="solution">Solution,&lt;/h2>
+&lt;p>まず、媒介変数の値が $$-10^4 &amp;lt;=N &amp;lt;=10^4$$ を保障するという内容がある。 なので、 小さな空間複雑度を犠牲にする選択がよさそうだ。 合計 $$O(2n)$$&lt;/p></description><content>&lt;h2 id="problem">Problem,&lt;/h2>
+&lt;p>Given an integer array nums and an integer k, return the kth largest element in the array.
+Note that it is the kth largest element in the sorted order, not the kth distinct element.
+Can you solve it without sorting?&lt;/p>
+&lt;p>&lt;strong>Example 1:&lt;/strong>&lt;/p>
+&lt;p>Input: nums = [3,2,1,5,6,4], k = 2
+Output: 5&lt;/p>
+&lt;p>&lt;strong>Example 2:&lt;/strong>&lt;/p>
+&lt;p>Input: nums = [3,2,3,1,2,4,5,5,6], k = 4
+Output: 4&lt;/p>
+&lt;h2 id="solution">Solution,&lt;/h2>
+&lt;p>まず、媒介変数の値が $$-10^4 &amp;lt;=N &amp;lt;=10^4$$ を保障するという内容がある。 なので、 小さな空間複雑度を犠牲にする選択がよさそうだ。 合計 $$O(2n)$$&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-java" data-lang="java">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">class&lt;/span> &lt;span style="color:#a6e22e">Solution&lt;/span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">private&lt;/span> &lt;span style="color:#66d9ef">static&lt;/span> &lt;span style="color:#66d9ef">final&lt;/span> &lt;span style="color:#66d9ef">int&lt;/span> MAGIC &lt;span style="color:#f92672">=&lt;/span> 10000;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">public&lt;/span> &lt;span style="color:#66d9ef">int&lt;/span> &lt;span style="color:#a6e22e">findKthLargest&lt;/span>(&lt;span style="color:#66d9ef">int&lt;/span>&lt;span style="color:#f92672">[]&lt;/span> nums, &lt;span style="color:#66d9ef">int&lt;/span> k) {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">int&lt;/span>&lt;span style="color:#f92672">[]&lt;/span> order &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#66d9ef">new&lt;/span> &lt;span style="color:#66d9ef">int&lt;/span>&lt;span style="color:#f92672">[&lt;/span>20001&lt;span style="color:#f92672">]&lt;/span>;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">for&lt;/span> (&lt;span style="color:#66d9ef">int&lt;/span> num : nums) {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> order&lt;span style="color:#f92672">[&lt;/span>num &lt;span style="color:#f92672">&amp;lt;&lt;/span> 0 &lt;span style="color:#f92672">?&lt;/span> (num &lt;span style="color:#f92672">+&lt;/span> MAGIC) : num &lt;span style="color:#f92672">+&lt;/span> MAGIC&lt;span style="color:#f92672">]&lt;/span> &lt;span style="color:#f92672">+=&lt;/span> 1;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">for&lt;/span> (&lt;span style="color:#66d9ef">int&lt;/span> i &lt;span style="color:#f92672">=&lt;/span> order.&lt;span style="color:#a6e22e">length&lt;/span> &lt;span style="color:#f92672">-&lt;/span> 1, m &lt;span style="color:#f92672">=&lt;/span> k, s &lt;span style="color:#f92672">=&lt;/span> 0; i &lt;span style="color:#f92672">&amp;gt;=&lt;/span> 0; &lt;span style="color:#f92672">--&lt;/span>i) {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">if&lt;/span> (order&lt;span style="color:#f92672">[&lt;/span>i&lt;span style="color:#f92672">]&lt;/span> &lt;span style="color:#f92672">&amp;gt;&lt;/span> 0)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> m &lt;span style="color:#f92672">-=&lt;/span> order&lt;span style="color:#f92672">[&lt;/span>i&lt;span style="color:#f92672">]&lt;/span>;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">if&lt;/span> (m &lt;span style="color:#f92672">&amp;lt;=&lt;/span> 0)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">return&lt;/span> i &lt;span style="color:#f92672">&amp;lt;&lt;/span> MAGIC &lt;span style="color:#f92672">?&lt;/span> i &lt;span style="color:#f92672">-&lt;/span> MAGIC : i &lt;span style="color:#f92672">-&lt;/span> MAGIC;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">return&lt;/span> 0;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div></content></item></channel></rss>
